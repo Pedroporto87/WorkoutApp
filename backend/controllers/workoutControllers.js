@@ -24,8 +24,6 @@ const getWorkout = async(req, res) => {
     res.status(200).json(workout)
 }
 
-
-
 // criando um novo exercicio
 
 const createWorkout = async (req, res) => {
@@ -40,6 +38,40 @@ const createWorkout = async (req, res) => {
     }
 }
 
+//deletando exercicio da serie
+
+const deleteWorkout = async (req, res) => {
+    const { id } = req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({msg: 'exercicio não encontrado'})
+    }
+
+    const workout = await Workout.findByIdAndDelete({_id: id})
+    
+    if(!workout){
+        return res.status(404).json({msg: 'não existe o exercicio'})
+    }
+    res.status(200).json(workout)
+}
+
+// alterando o exercicio
+
+const updateWorkout = async (req, res) => {
+    const { id } = req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({msg: 'exercicio não encontrado'})
+    }
+
+    const workout = await Workout.findByIdAndUpdate({_id: id}, { ...req.body })
+
+    if(!workout){
+        return res.status(404).json({msg: 'não existe o exercicio'})
+    }
+    res.status(200).json(workout)
+}
+
 module.exports = {
-    createWorkout, getWorkouts, getWorkout
+    createWorkout, getWorkouts, getWorkout, deleteWorkout, updateWorkout
 }
