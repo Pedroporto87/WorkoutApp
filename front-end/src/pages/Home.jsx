@@ -1,7 +1,26 @@
-
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { WorkoutDetails } from '../components/workoutDetails'
+import '../styles/home.scss'
 
 export const Home = () => {
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+      axios.get(`http://localhost:4000/api/workouts`)
+        .then((response) => {
+          setData(response.data)
+        })
+    
+  }, [])
+  
   return (
-    <div><h1>Home</h1></div>
+    <section className='home'>
+      <section className='workout'>
+      {data && data.map((workout) =>
+        <WorkoutDetails key={workout._id} data={workout}/> 
+      )}
+      </section>
+    </section>
   )
 }

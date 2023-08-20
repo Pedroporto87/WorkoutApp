@@ -18,7 +18,11 @@ const workoutSchema = new Schema({
     carga: {
         type: Number,
         required: true
-    }
+    },
+    descanso: {
+        type: Number,
+        required: true
+    },
     
 }, {timestamps: true})
 
