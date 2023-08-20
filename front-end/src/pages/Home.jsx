@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { WorkoutDetails } from '../components/workoutDetails'
 import '../styles/home.scss'
+import { WorkoutForm } from '../components/workoutForm'
 
 export const Home = () => {
   const [data, setData] = useState(null)
@@ -18,8 +19,9 @@ export const Home = () => {
     <section className='home'>
       <section className='workout'>
       {data && data.map((workout) =>
-        <WorkoutDetails key={workout._id} data={workout}/> 
+        <WorkoutDetails key={workout._id} data={workout}/>  
       )}
+      <WorkoutForm /> 
       </section>
     </section>
   )
