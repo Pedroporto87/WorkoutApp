@@ -6,22 +6,33 @@ import { WorkoutForm } from '../components/workoutForm'
 
 export const Home = () => {
   const [data, setData] = useState(null)
-
+  const [refresh, setRefresh] = useState(false)
+  
+  const getWorkout = () => {
+    axios.get(`http://localhost:4000/api/workouts`)
+          .then((response) => {
+            setData(response.data)
+          })
+   }
+ 
   useEffect(() => {
-      axios.get(`http://localhost:4000/api/workouts`)
-        .then((response) => {
-          setData(response.data)
-        })
-    
+      getWorkout()
   }, [])
+  
+  useEffect(() => {
+    getWorkout()
+  }, [refresh])
+
   
   return (
     <section className='home'>
-      <section className='workout'>
-      {data && data.map((workout) =>
-        <WorkoutDetails key={workout._id} data={workout}/>  
-      )}
-      <WorkoutForm /> 
+      <section className='workout-home'>
+        <section className='details'>
+          {data && data.map((workout) =>
+            <WorkoutDetails key={workout._id} data={workout}/>  
+          )}
+      </section>
+      <WorkoutForm className='form' setRefresh={setRefresh}/> 
       </section>
     </section>
   )
