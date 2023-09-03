@@ -1,8 +1,16 @@
 .home{
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+  .workout-home{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 100px;
+    .details{
+        grid-column: 1;
+    }
+    .form{
+        grid-column: 2;
+    }
+  }
 }

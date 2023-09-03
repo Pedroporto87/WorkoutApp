@@ -5,7 +5,7 @@ export const WorkoutDetails = ({ data }) => {
   return (
     <section className='workout'>
         <h4>{data.title}</h4>
-        <p><strong>Carga:</strong> {data.carga}</p>
+        <p><strong>Carga(kg):</strong> {data.carga}</p>
         <p><strong>Reps:</strong> {data.reps}</p>
         <p><strong>Series:</strong> {data.series}</p>
         <p><strong>Descanso(em seg):</strong>{data.descanso}</p>
