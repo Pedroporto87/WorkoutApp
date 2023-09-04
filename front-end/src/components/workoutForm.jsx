@@ -1,6 +1,8 @@
 import '../styles/workoutForm.scss'
 import { useState } from 'react'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { fetchApiData } from '../features/getWorkout/getWorkoutSlide'
 
 
 
@@ -12,6 +14,8 @@ export const WorkoutForm = ({setRefresh}) => {
         reps:'',
         descanso:''
     })
+    
+    const dispatch = useDispatch()
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,7 +26,14 @@ export const WorkoutForm = ({setRefresh}) => {
         e.preventDefault()
         try{
             await axios.post(`http://localhost:4000/api/workouts/`, form)
-            await setRefresh(true)
+            await dispatch(fetchApiData())
+            setForm({
+                title:'',
+                carga:'',
+                series:'',
+                reps:'',
+                descanso:''
+            })
             } catch(error){
             console.log('Erro ao enviar dados:', error);
         }

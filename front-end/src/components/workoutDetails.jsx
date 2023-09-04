@@ -1,16 +1,29 @@
 import PropTypes from 'prop-types'
 import '../styles/workoutDetails.scss'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
 
-export const WorkoutDetails = ({ data }) => {
+export const WorkoutDetails = () => {
+  const dispatch = useDispatch()
+  const data = useSelector((state) => state.workout.data)
+
+  useEffect(() => {
+    dispatch(fetchApiData())
+  }, [dispatch])
+
+
   return (
-    <section className='workout'>
-        <h4>{data.title}</h4>
-        <p><strong>Carga(kg):</strong> {data.carga}</p>
-        <p><strong>Reps:</strong> {data.reps}</p>
-        <p><strong>Series:</strong> {data.series}</p>
-        <p><strong>Descanso(em seg):</strong>{data.descanso}</p>
-        <p>{data.createdAt}</p>        
-    </section>
+    data.map((workout) => (
+      <section className='workout' key={workout.id}>
+          <h4>{workout.title}</h4>
+          <p><strong>Carga(kg):</strong> {workout.carga}</p>
+          <p><strong>Reps:</strong> {workout.reps}</p>
+          <p><strong>Series:</strong> {workout.series}</p>
+          <p><strong>Descanso(em seg):</strong>{workout.descanso}</p>
+          <p>{workout.createdAt}</p>        
+      </section>
+    ))
   )
 }
 
