@@ -2,7 +2,9 @@ import PropTypes from 'prop-types'
 import '../styles/workoutDetails.scss'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
+import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';''
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 export const WorkoutDetails = () => {
   const dispatch = useDispatch()
@@ -12,6 +14,7 @@ export const WorkoutDetails = () => {
     dispatch(fetchApiData())
   }, [dispatch])
 
+  moment.locale('pt-br');
 
   return (
     data.map((workout) => (
@@ -21,7 +24,7 @@ export const WorkoutDetails = () => {
           <p><strong>Reps:</strong> {workout.reps}</p>
           <p><strong>Series:</strong> {workout.series}</p>
           <p><strong>Descanso(em seg):</strong>{workout.descanso}</p>
-          <p>{workout.createdAt}</p>        
+          <p>{moment(workout.createdAt).locale('pt-br').fromNow()}</p>        
       </section>
     ))
   )

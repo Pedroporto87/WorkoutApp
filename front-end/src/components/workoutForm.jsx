@@ -2,11 +2,9 @@ import '../styles/workoutForm.scss'
 import { useState } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { fetchApiData } from '../features/getWorkout/getWorkoutSlide'
+import { fetchApiData, postWorkout } from '../features/getWorkout/getWorkoutSlide'
 
-
-
-export const WorkoutForm = ({setRefresh}) => {
+export const WorkoutForm = () => {
     const [form, setForm] = useState({
         title:'',
         carga:'',
@@ -25,7 +23,7 @@ export const WorkoutForm = ({setRefresh}) => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            await axios.post(`http://localhost:4000/api/workouts/`, form)
+            await dispatch(postWorkout(form))
             await dispatch(fetchApiData())
             setForm({
                 title:'',
