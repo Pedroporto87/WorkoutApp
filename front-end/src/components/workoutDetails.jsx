@@ -2,7 +2,9 @@ import PropTypes from 'prop-types'
 import '../styles/workoutDetails.scss'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';''
+import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
+import { EditWorkoutButtom} from './editWorkoutButtom';
+import { DeleteWorkoutButtom } from './deleteWorkoutButtom'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
@@ -20,6 +22,10 @@ export const WorkoutDetails = () => {
     data.map((workout) => (
       <section className='workout' key={workout.id}>
           <h4>{workout.title}</h4>
+            <section className='icons'>
+              <EditWorkoutButtom id={workout.id} />
+              <DeleteWorkoutButtom id={workout.id}/>
+            </section>
           <p><strong>Carga(kg):</strong> {workout.carga}</p>
           <p><strong>Reps:</strong> {workout.reps}</p>
           <p><strong>Series:</strong> {workout.series}</p>
