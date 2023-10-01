@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateWorkout } from '../features/getWorkout/getWorkoutSlide'
+import '../styles/editcard.scss'
 
 
-export const EditCard = ({id,  onClose=()=>{}}) => {
+export const EditCard = ({data, isOpen, setOpen}) => {
+
+if(!isOpen) return null;
+else(isOpen) => {
+
+
     const [form, setForm] = useState({
         title:'',
         carga:'',
@@ -17,6 +23,7 @@ export const EditCard = ({id,  onClose=()=>{}}) => {
         setForm((prevData) => ({...prevData, [name]: value}))
 
     const onEdit = () => {
+        const id = JSON.stringify(data)
         dispatch(updateWorkout(...form, id))
         CloseModal()
     }
@@ -26,7 +33,7 @@ export const EditCard = ({id,  onClose=()=>{}}) => {
     }
 
   return (
-    <div className='edit-card' id={data.id} >
+    <div className='edit-card' >
         <div className='edit-card-conteiner' >
             <h1>Editar Exercicio</h1>
             <label>Nome do Exercicio:
@@ -87,9 +94,9 @@ export const EditCard = ({id,  onClose=()=>{}}) => {
             
             <div className='edit-card-buttons'>
                 <button className='edit-cancel-button' onClick={CloseModal}>Cancel</button>
-                <button className='edit-save-button'type='submit' onClick={() => onEdit(data)}>Save</button>
+                <button className='edit-save-button'type='submit' onClick={onEdit(data)}>Save</button>
             </div>
         </div>
     </div>
-  )
+  )}
 }}

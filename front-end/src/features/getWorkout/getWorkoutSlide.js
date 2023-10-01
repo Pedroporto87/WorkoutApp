@@ -1,6 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
+export const fetchApiData = createAsyncThunk('getWorkout', async () => {
+      const response = await axios.get(`http://localhost:4000/api/workouts`);
+      return response.data;
+  });
+
+  
 const getWorkoutSlice = createSlice({
     name: 'workout',
     initialState: {
@@ -57,10 +64,7 @@ const getWorkoutSlice = createSlice({
     
 )
 
-export const fetchApiData = createAsyncThunk('getWorkout', async () => {
-      const response = await axios.get(`http://localhost:4000/api/workouts`);
-      return response.data;
-  });
+
 
   export const postWorkout = createAsyncThunk('postWorkout', async(data) => {
         const response = await axios.post('http://localhost:4000/api/workouts/', data)
