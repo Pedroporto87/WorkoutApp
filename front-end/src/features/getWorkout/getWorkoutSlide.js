@@ -33,6 +33,9 @@ const getWorkoutSlice = createSlice({
           state.loading = false;
           state.data = action.payload;
           state.error = null;
+        },
+        deleteWorkoutSucess(state, action) {
+          state.data = state.data.filter((workout) => workout.id !== action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -80,7 +83,7 @@ export const updateWorkout = createAsyncThunk('editWorkout', async(data) => {
   }
 })
 
-export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', async (id) => {
+export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', async(id) => {
     try {
       await axios.delete(`http://localhost:4000/api/workouts/${id}`);
       return id;
@@ -90,7 +93,7 @@ export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', async (i
   }
 );
 
-export const { getWorkoutLoading, getWorkoutSucess, getWorkoutError, postWorkoutSucess } = getWorkoutSlice.actions;
+export const { getWorkoutLoading, getWorkoutSucess, getWorkoutError, postWorkoutSucess, deleteWorkoutSucess } = getWorkoutSlice.actions;
 export const { reducer: workoutReducer} = getWorkoutSlice
 
 
