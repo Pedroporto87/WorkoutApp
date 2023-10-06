@@ -50,8 +50,8 @@ export const WorkoutList = () => {
       {data.map((workout) => (
         <section >
           <WorkoutItem
-            id={workout.id}
-            key={workout.id}
+            id={workout._id}
+            key={workout._id}
             
             workout={workout}
             onInputChange={handleInputChange}
