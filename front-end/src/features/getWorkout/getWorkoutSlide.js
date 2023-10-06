@@ -53,7 +53,7 @@ const getWorkoutSlice = createSlice({
             state.error = action.error.message;
           })
           .addCase(updateWorkout.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loading = false; // Define o estado de carregamento como falso, indicando que a solicitação foi concluída com sucesso.
             state.data = state.data.map((workout) =>
               workout.id === action.payload.id ? action.payload : workout
             );
@@ -74,7 +74,7 @@ const getWorkoutSlice = createSlice({
         return response.data
 })
 
-export const updateWorkout = createAsyncThunk('editWorkout', async(data) => {
+export const updateWorkout = createAsyncThunk('editWorkout', async({ id, data }) => {
   try{
   const response = await axios.patch(`http://localhost:4000/api/workouts/${id}`, data)
   return response.data
