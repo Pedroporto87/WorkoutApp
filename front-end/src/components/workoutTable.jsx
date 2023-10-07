@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteWorkout } from '../features/getWorkout/getWorkoutSlide';
 import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
 import { updateWorkout } from '../features/getWorkout/getWorkoutSlide'
+import '../styles/workoutDetails.scss'
 
 
 export const WorkoutItem = ({workout}) => {
@@ -54,10 +55,9 @@ export const WorkoutItem = ({workout}) => {
   }
   
     return (
-      <section className='workout' key={workout._id}>
-        <h4>{workout.title}</h4>
-        <p>
-          <strong>Carga(kg):</strong>{' '}
+     <>
+        <td >{workout.title}</td>
+        <td >
           {editingWorkoutId === true ? (
             <input
             type="text"
@@ -67,9 +67,8 @@ export const WorkoutItem = ({workout}) => {
           ) : (
             workout.carga
           )}
-        </p>
-        <p>
-          <strong>Reps:</strong>
+        </td>
+        <td>
           {editingWorkoutId === true ? (
             <input
               type="text"
@@ -79,9 +78,8 @@ export const WorkoutItem = ({workout}) => {
           ) : (
             workout.reps
           )}
-        </p>
-        <p>
-          <strong>Series:</strong>
+        </td>
+        <td>
           {editingWorkoutId === true? (
             <input
             type="text"
@@ -91,9 +89,8 @@ export const WorkoutItem = ({workout}) => {
           ) : (
             workout.series
           )}
-        </p>
-        <p>
-          <strong>Descanso(em seg):</strong>
+        </td>
+        <td>
           {editingWorkoutId === true ? (
             <input
               type="text"
@@ -103,22 +100,23 @@ export const WorkoutItem = ({workout}) => {
           ) : (
             workout.descanso
           )}
-        </p>
-        <p>{moment(workout.createdAt).locale('pt-br').fromNow()}</p>
-        <section className='edit-card-icons'>
+        </td>
+        <td>{moment(workout.createdAt).locale('pt-br').fromNow()}</td>
+        <td className='edit-card-icons'>
         {editingWorkoutId === true ? (
           <>
-            <MdDone onClick={() => handlePatchClick(workout._id)} />
-            <MdCancel onClick={() => handleCancelClick()} />
+            <MdDone className='ok-button' onClick={() => handlePatchClick(workout._id)} />
+            <MdCancel className='cancel-button' onClick={() => handleCancelClick()} />
           </>
         ) : (
           <>
-            <MdOutlineEditNote onClick={() => handleEditClick()} />
-            <MdDeleteForever onClick={() => handleDeleteClick(workout._id)} />
+            <MdOutlineEditNote className='edit-button' onClick={() => handleEditClick()} />
+            <MdDeleteForever className='delete-button' onClick={() => handleDeleteClick(workout._id)} />
           </>
         )}  
-        </section>
-      </section>
+        </td>
+        </>
+      
     );
   };
  

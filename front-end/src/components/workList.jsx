@@ -3,10 +3,7 @@ import '../styles/workoutDetails.scss'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
-
-import { WorkoutItem } from './editButtom';
-
-
+import { WorkoutItem } from './workoutTable';
 
 export const WorkoutList = () => {
   const dispatch = useDispatch();
@@ -30,35 +27,35 @@ export const WorkoutList = () => {
     }));
   };
 
-  /*const handleSaveClick = (workout) => {
-    // Verifica se há valores editados
-    if (Object.keys(editedValues).length > 0) {
-
-      dispatch(
-        updateWorkout({
-          ...workout,
-          ...editedValues,
-        })
-      );
-      setEditedValues({});
-      setEditingWorkoutId(null);
-    }
-  };*/
-
   return (
-    <>
+    <section className='table-conteiner'>
+    <table>
+      <thead>
+        <tr>
+          <th>Exercicio</th>
+          <th>Carga(kg)</th>
+          <th>Reps</th>
+          <th>Series</th>
+          <th>Descanso(seg)</th>
+          <th>Criado em</th>
+          <th>Ações </th>
+        </tr>
+      </thead>
+    <tbody>
+      
       {data.map((workout) => (
-        <section >
+        <tr key={workout._id}>
           <WorkoutItem
             id={workout._id}
             key={workout._id}
-            
             workout={workout}
             onInputChange={handleInputChange}
           />
-            </section>
+          </tr>
           ))}
-      </>
+          </tbody>
+          </table>
+      </section>
   )
 };
 
@@ -73,8 +70,8 @@ WorkoutList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      carga: PropTypes.number.isRequired,
-      reps: PropTypes.number.isRequired,
+      carga: PropTypes.string.isRequired,
+      reps: PropTypes.string.isRequired,
       series: PropTypes.number.isRequired,
       descanso: PropTypes.number.isRequired,
       createdAt: PropTypes.string.isRequired,
