@@ -5,11 +5,11 @@ import { fetchApiData, postWorkout } from '../features/getWorkout/getWorkoutSlid
 
 export const WorkoutForm = () => {
     const [form, setForm] = useState({
-        title:'',
-        carga:'',
-        series:'',
-        reps:'',
-        descanso:''
+        title:"",
+        carga:"",
+        series:"",
+        reps:"",
+        descanso:""
     })
     
     const dispatch = useDispatch()
