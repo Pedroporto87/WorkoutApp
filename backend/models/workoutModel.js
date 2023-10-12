@@ -8,7 +8,7 @@ const workoutSchema = new Schema({
         required: true
     },
     reps: {
-        type: Number,
+        type: String,
         required: true
     },
     series: {
@@ -16,7 +16,7 @@ const workoutSchema = new Schema({
         required: true
     },
     carga: {
-        type: Number,
+        type: String,
         required: true
     },
     descanso: {
@@ -25,5 +25,17 @@ const workoutSchema = new Schema({
     },
     
 }, {timestamps: true})
+
+
+
+/*const personalSchema = new Schema({
+    name:{
+        type: String,
+        required: true
+    },
+    alunos: [alunosSchema],
+})*/
+
+
 
 module.exports = mongoose.model('Workout', workoutSchema)
