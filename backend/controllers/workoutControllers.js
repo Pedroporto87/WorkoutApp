@@ -1,4 +1,5 @@
 const Workout = require('../models/workoutModel')
+const Serie = require("../models/seriesModel")
 const mongoose = require('mongoose')
 
 // pegando toda serie
@@ -26,12 +27,24 @@ const getWorkout = async(req, res) => {
 
 // criando um novo exercicio
 
+
+
+
 const createWorkout = async (req, res) => {
-    const { title, reps, series, carga, descanso } = req.body
+    const { title, reps, series, carga, descanso, serieId } = req.body
+
+    try {
+        const serie = await Serie.findById({ _id: serieId});     
+    }catch (error) {
+           res.status(404).json({ msg: 'Serie não encontrada' });
+        }
 
     //adicionando no DB
     try{
-       const workout = await Workout.create({ title, reps, series, carga, descanso })
+       const workout = await Workout.create({ title, reps, series, carga, descanso, serie: serie._id })
+       serie.workout.push(workout._id);
+       await serie.save();
+
        res.status(200).json(workout)
     } catch(error) {
        res.status(400).json({msg: "error.message"})

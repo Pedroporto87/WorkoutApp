@@ -5,7 +5,7 @@ const validator = require('validator')
 
 const Schema = mongoose.Schema
 
-const  alunoSchema = new Schema({
+const  UserSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -19,10 +19,9 @@ const  alunoSchema = new Schema({
         type: String,
         required: true,
     },
-    //workout: [workoutSchema],
 })
 
-alunoSchema.statics.login = async function (name, email, password) {
+/*alunoSchema.statics.login = async function (name, email, password) {
     if(!name || !email || !password) {
         throw Error('Todos os campos devem ser preenchidos')
     }
@@ -69,6 +68,6 @@ alunoSchema.statics.signup = async function (name, email, password) {
     const user = await this.create({ name, email, password: hash})
 
     return user
-}
+}*/
 
-module.exports = mongoose.model('Aluno', alunoSchema)
+module.exports = mongoose.model('User', UserSchema)

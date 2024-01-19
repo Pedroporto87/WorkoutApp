@@ -23,6 +23,10 @@ const workoutSchema = new Schema({
         type: Number,
         required: true
     },
+    series: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Serie"
+     },
     
 }, {timestamps: true})
 

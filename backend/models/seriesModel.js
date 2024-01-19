@@ -7,7 +7,13 @@ const seriesSchema = new Schema({
         type: String,
         required: true
     },
-    exercicios: [workoutSchema],
+    userId: {
+        type: mongoose.ObjectId
+    },
+    workout: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Workout"
+    }]
 })
 
-module.exports = mongoose.model('serie', seriesSchema)
+module.exports = mongoose.model('Serie', seriesSchema)

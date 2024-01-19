@@ -2,20 +2,24 @@ require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
+const bodyParser = require("body-parser")
 const workingRoutes =  require('./routes/workout')
-const userRoutes =  require('./routes/user')
+//const userRoutes =  require('./routes/user')
+const authRoutes = require('./routes/authRoutes')
+const userRoutes = require('./routes/userRoutes')
+const serieRoutes = require('./routes/seriesRoutes')
 
 const app = express()
 app.use(cors())
-
+app.use(express.static('public'));
 app.use(express.json())
-app.use((req, res, next) =>{
-    console.log(req.path, req.method)
-    next()
-})
+
 
 app.use("/api/workouts", workingRoutes)
+app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
+app.use("/api/series", serieRoutes)
+//app.use("/api/user", userRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
