@@ -1,22 +1,22 @@
  const express = require('express')
  const { createWorkout, 
-         getWorkouts,
-         getWorkout, 
+         getWorkout,
+         getAllWorkouts, 
          deleteWorkout, 
          updateWorkout } = require('../controllers/workoutControllers')
- const verifyToken = require("../helpers/check-token")
+ 
  
 
  const router = express.Router()
 
- router.get("/:serieId/", getWorkouts)
+ router.get("/:serieId/get-all", getAllWorkouts)
 
- router.get("/:serieI/:id", getWorkout)
+ router.get("/:id", getWorkout)
  
  router.post("/:serieId/createworkout", createWorkout)
 
- router.delete("/:serieId/:id", deleteWorkout)
+ router.delete("/:id", deleteWorkout)
 
- router.patch("/:serieId/:id", updateWorkout)
+ router.patch("/:id/", updateWorkout)
 
  module.exports = router
