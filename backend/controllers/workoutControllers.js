@@ -31,24 +31,67 @@ const getWorkout = async(req, res) => {
 
 
 const createWorkout = async (req, res) => {
-    const { title, reps, series, carga, descanso, serieId } = req.body
+
+    const id = req.params?.serieId
+    const { title, reps, series, carga, descanso } = req.body
 
     try {
-        const serie = await Serie.findById({ _id: serieId});     
-    }catch (error) {
-           res.status(404).json({ msg: 'Serie não encontrada' });
+        if(id){
+            const createdWorkout = await Workout.create({
+                serieId: id,
+                title,
+                reps,
+                series,
+                carga,
+                descanso
+            })
+            res.status(200).json(createdWorkout)
+        }else{
+            res.status(404).json({msg: 'não criou exercicio no else'})
         }
+    } catch (error) {
+        res.status(404).json({msg: 'não criou exercicio no catch1'})
+    }
 
+    
+  
+    
+/*    if(!serie){
+        return res.status(404).json({msg: 'não existe a serie'})
+    }
+    try {
+       /* const serie = await Serie.findById(serieId);
+
+        if (!serie) {
+            return res.status(404).json({ msg: "Série não encontrada" });
+        }*/
+
+/*    const newWorkout = await Workout.create({
+        title,
+        reps,
+        series,
+        carga,
+        descanso,
+        serieId
+    });
+
+    // Atualizar a série (se necessário)
+    serie.workouts.push(newWorkout);
+    await serie.save();
+
+    res.status(200).json({msg: "exercicio salvo com sucesso"});
+} catch (error) {
+    res.status(500).json({ msg: "Erro interno do servidor", error: error.message });
+}
+*/
     //adicionando no DB
-    try{
-       const workout = await Workout.create({ title, reps, series, carga, descanso, serie: serie._id })
-       serie.workout.push(workout._id);
+   /* try{
+       const workout = await Workout.create({ title, reps, series, carga, descanso, serieId: serie._id})
        await serie.save();
-
        res.status(200).json(workout)
     } catch(error) {
-       res.status(400).json({msg: "error.message"})
-    }
+       res.status(400).json({msg: "error.message workout "})
+    }*/
 }
 
 //deletando exercicio da serie

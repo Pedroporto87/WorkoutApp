@@ -4,18 +4,19 @@
          getWorkout, 
          deleteWorkout, 
          updateWorkout } = require('../controllers/workoutControllers')
+ const verifyToken = require("../helpers/check-token")
  
 
  const router = express.Router()
 
- router.get("/", getWorkouts)
+ router.get("/:serieId/", getWorkouts)
 
- router.get("/:id", getWorkout)
+ router.get("/:serieI/:id", getWorkout)
  
- router.post("/", createWorkout)
+ router.post("/:serieId/createworkout", createWorkout)
 
- router.delete("/:id", deleteWorkout)
+ router.delete("/:serieId/:id", deleteWorkout)
 
- router.patch("/:id", updateWorkout)
+ router.patch("/:serieId/:id", updateWorkout)
 
  module.exports = router

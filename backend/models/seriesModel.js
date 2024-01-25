@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { workoutSchema } = require('./workoutModel')
 const Schema = mongoose.Schema
 
 const seriesSchema = new Schema({
@@ -10,10 +9,6 @@ const seriesSchema = new Schema({
     userId: {
         type: mongoose.ObjectId
     },
-    workout: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workout"
-    }]
 })
 
 module.exports = mongoose.model('Serie', seriesSchema)
