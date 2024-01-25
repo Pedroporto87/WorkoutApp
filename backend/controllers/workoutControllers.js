@@ -3,7 +3,19 @@ const Serie = require("../models/seriesModel")
 const mongoose = require('mongoose')
 
 // pegando toda serie
-const getWorkouts = async (req, res) => {
+const getAllWorkouts = async (req, res) => {
+    const id = req.params?.serieId
+
+    try {
+        if(id){
+            const workouts = await Workout.find({serieId: id}).sort({ createdAt: -1 })
+            res.json({workouts})
+        }else{
+            res.status(400).json({msg: 'Problema ao encontrar o id da serie getAllWorkouts'})
+        }
+    } catch (error) {
+        res.status(400).json({ msg: 'Problema ao encontrar exercicios getAllWorkouts'})
+    }
     const workouts = await Workout.find({}).sort({createdAt: -1})
 
     res.status(200).json(workouts)
@@ -52,46 +64,6 @@ const createWorkout = async (req, res) => {
     } catch (error) {
         res.status(404).json({msg: 'não criou exercicio no catch1'})
     }
-
-    
-  
-    
-/*    if(!serie){
-        return res.status(404).json({msg: 'não existe a serie'})
-    }
-    try {
-       /* const serie = await Serie.findById(serieId);
-
-        if (!serie) {
-            return res.status(404).json({ msg: "Série não encontrada" });
-        }*/
-
-/*    const newWorkout = await Workout.create({
-        title,
-        reps,
-        series,
-        carga,
-        descanso,
-        serieId
-    });
-
-    // Atualizar a série (se necessário)
-    serie.workouts.push(newWorkout);
-    await serie.save();
-
-    res.status(200).json({msg: "exercicio salvo com sucesso"});
-} catch (error) {
-    res.status(500).json({ msg: "Erro interno do servidor", error: error.message });
-}
-*/
-    //adicionando no DB
-   /* try{
-       const workout = await Workout.create({ title, reps, series, carga, descanso, serieId: serie._id})
-       await serie.save();
-       res.status(200).json(workout)
-    } catch(error) {
-       res.status(400).json({msg: "error.message workout "})
-    }*/
 }
 
 //deletando exercicio da serie
@@ -129,5 +101,5 @@ const updateWorkout = async (req, res) => {
 }
 
 module.exports = {
-    createWorkout, getWorkouts, getWorkout, deleteWorkout, updateWorkout
+    createWorkout, getAllWorkouts, getWorkout, deleteWorkout, updateWorkout
 }
