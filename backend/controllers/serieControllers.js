@@ -3,8 +3,20 @@ const Serie = require("../models/seriesModel")
 const User = require("../models/userModel")
 const getUserByToken = require("../helpers/getUserByToken")
 
-const getSeries = async (req, res) => {
-    res.status(200).json({msg: "Funcionando!"})
+const getUserSeries = async (req, res) => {
+    
+    try {
+        
+        const token = req.header("auth-token")
+        const user = await getUserByToken(token)
+        const userId = user._id.toString()
+        const serieId = req.params?._id
+        const serie = await Serie.findOne({ _id: serieId, userId: userId})
+        res.json({ error: null, serie: serie })
+
+    } catch (error) {
+        res.status(400).json({ msg: "Erro no getSeries"})
+    }
 }
 
 const createSeries = async(req, res) => {
@@ -39,13 +51,33 @@ const createSeries = async(req, res) => {
     } 
 }
 
-const getAllSeries = async(req,res) => {
-
+const getSeries = async(req,res) => {
+        const id = req.params._id
+        const serieId = id.toString()
     try {
         
+        const serie = await Serie.findById({  _id:serieId })
+        res.status(200).json({ error: null, serie})
+        
     } catch (error) {
-        res.status(400).json({msg: "Acesso negado getAllSerie"})
+        res.status(400).json({msg: "Acesso negado getSeries"})
     }
 }
 
-module.exports = { getSeries, createSeries, getAllSeries }
+const deleteSeries = async(req, res) => {
+    const token = req.header("auth-token")
+    const userByToken = await getUserByToken(token)
+    const userId = userByToken._id.toString()
+    const serieId = req.body._id
+
+    try {
+        
+        await Serie.deleteOne({ _id: serieId, userId: userId})
+        res.status(200).json({ error: null, msg: "Serie removida com sucesso"})
+
+    } catch (error) {
+        res.status(400).json({msg: "Acesso negado deleteSeries"})
+    }
+}
+
+module.exports = { getUserSeries, createSeries, getSeries, deleteSeries }
