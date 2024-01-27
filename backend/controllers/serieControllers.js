@@ -2,11 +2,11 @@ const jwt = require('jsonwebtoken')
 const Serie = require("../models/seriesModel")
 const User = require("../models/userModel")
 const getUserByToken = require("../helpers/getUserByToken")
+const mongoose = require('mongoose')
 
 const getUserSeries = async (req, res) => {
     
     try {
-        
         const token = req.header("auth-token")
         const user = await getUserByToken(token)
         const userId = user._id.toString()
@@ -56,7 +56,7 @@ const getSeries = async(req,res) => {
         const serieId = id.toString()
     try {
         
-        const serie = await Serie.findById({  _id:serieId })
+        const serie = await Serie.findById({ _id:serieId })
         res.status(200).json({ error: null, serie})
         
     } catch (error) {
@@ -80,4 +80,23 @@ const deleteSeries = async(req, res) => {
     }
 }
 
-module.exports = { getUserSeries, createSeries, getSeries, deleteSeries }
+const updateSeries = async ( req,res ) => {
+    
+    const serieId = req.params?.id
+
+    if(!mongoose.Types.ObjectId.isValid(serieId)){
+         res.status(404).json({msg: 'serie não encontrado'})
+    }
+    const token = req.header('auth-token')
+    const userByToken = await getUserByToken(token) 
+    const userId = userByToken._id.toString()
+
+    const serie = await Serie.findByIdAndUpdate({_id: serieId}, {userId}, { ...req.body })
+
+    if(!serie){
+         res.status(404).json({msg: 'não existe o serie'})
+    }
+    res.status(200).json(serie)
+}
+
+module.exports = { getUserSeries, createSeries, getSeries, deleteSeries, updateSeries }
