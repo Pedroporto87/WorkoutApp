@@ -1,5 +1,5 @@
 import { WorkoutDetails } from '../components/workoutDetails'
-import '../styles/home.scss'
+import '../styles/components/home.scss'
 import { WorkoutForm } from '../components/workoutForm'
 
 export const Home = () => {

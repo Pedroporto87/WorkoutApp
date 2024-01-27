@@ -1,12 +1,17 @@
-import { NavLink } from 'react-router-dom'
-import '../styles/Navbar.scss'
+
+import '../styles/components/Navbar.scss'
+import { LoginBottom } from './loginButtom'
+import { SignupButtom } from './signupButtom'
+
 
 export const Navbar = () => {
   return (
     <nav>
         <section className='conteiner'>
             <h1>Workout Mate</h1>
-            <NavLink to="/">Login</NavLink>
+            <LoginBottom />
+            <br />
+            <SignupButtom /> 
         </section>
     </nav>
   )

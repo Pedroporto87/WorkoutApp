@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import '../styles/workoutDetails.scss'
+import '../styles/components/workoutDetails.scss'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';

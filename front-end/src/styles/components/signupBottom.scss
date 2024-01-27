@@ -1,0 +1,5 @@
+@import '../mixins';
+
+.sign-up-bottom{
+    @include sign-button
+}

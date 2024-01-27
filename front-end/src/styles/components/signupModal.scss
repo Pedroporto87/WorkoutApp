@@ -1,0 +1,5 @@
+@import '../mixins';
+
+.signup-modal{
+    @include modal
+}

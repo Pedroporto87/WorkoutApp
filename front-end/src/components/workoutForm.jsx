@@ -1,4 +1,4 @@
-import '../styles/workoutForm.scss'
+import '../styles/components/workoutForm.scss'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchApiData, postWorkout } from '../features/getWorkout/getWorkoutSlide'

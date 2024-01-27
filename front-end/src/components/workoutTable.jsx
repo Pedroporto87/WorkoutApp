@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteWorkout } from '../features/getWorkout/getWorkoutSlide';
 import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
 import { updateWorkout } from '../features/getWorkout/getWorkoutSlide'
-import '../styles/workoutDetails.scss'
+import '../styles/components/workoutDetails.scss'
 
 
 export const WorkoutItem = ({workout}) => {
