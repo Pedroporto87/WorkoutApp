@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins-ExtraBold.ttf')format('truetype');
+}
+
+nav{
+    background: #fff;
+  
+  section{
+      display: flex;
+      flex-direction: row;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      align-items: center;
+      justify-content: space-between;
+      h1 {
+        color: #333;
+        text-decoration: none;
+        font-family: "Poppins";
+      }
+    }
+}
