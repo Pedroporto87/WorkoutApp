@@ -1,5 +1,13 @@
 @import '../mixins';
 
 .sign-up-bottom{
-    @include sign-button
+    @include sign-button;
+    button{
+        &:hover{
+            
+            box-shadow: 2px 2px 5px cornflowerblue;
+        }
+     }
+     
+    
 }

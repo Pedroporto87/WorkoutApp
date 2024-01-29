@@ -1,7 +1,16 @@
 @import '../mixins';
 
 .login-bottom{
-   @include sign-button 
+   @include sign-button;
+   button{
+      background-color: white;
+      color: cornflowerblue;
+      &:hover{
+         border: 2px solid cornflowerblue;
+         box-shadow: 2px 2px 5px cornflowerblue;
+      }
+   }
+   
 }
 
 

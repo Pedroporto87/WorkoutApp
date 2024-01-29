@@ -1,39 +1,73 @@
 
 @mixin modal {
-    .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-      }
-      
-      .modal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 2;
-      }
-      
-      .close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+  .overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgb(201, 199, 199);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal{
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      height: 60%;
+      top: 25%;
+      left: 15%;
+      border-radius: 1rem;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 1);
+      position: relative;
+      border: 2px solid cornflowerblue;
+      .close{
+        display: flex;
+        justify-content: flex-end;
+        color: #CB112D;
+        font-size: 1rem;
+        margin-right: 1rem;
         cursor: pointer;
+        
+      }
+      h2{
+        display: flex;
+        justify-content: center;
+        font-size: 1.675rem;
+        font-family: 'Poppins';
+        font-weight: 700;
+        color: cornflowerblue;       
+    }
+    .form{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      label{
+        color: cornflowerblue;
       }
       
-      .form {
-        margin-top: 20px;
+    }
+    a{
+      color: cornflowerblue;
+      font-size: 0.7rem;
+      margin: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      &:hover{
+        color: rgb(28, 108, 199);
       }
+    }
+    .modal-button{
+      @include sign-button()
+    }
+  }
 }
+}
+
+
 
 @mixin sign-button{
     button{
@@ -46,7 +80,7 @@
         color: white;
         font-family: "Poppins";
         text-align: center;
-        box-shadow: 2px 2px 5px cornflowerblue;
+        //box-shadow: 2px 2px 5px cornflowerblue;
         cursor: pointer;
             &:hover{
                 border: #333;

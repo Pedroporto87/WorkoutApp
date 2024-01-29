@@ -8,10 +8,11 @@ export const LoginBottom = () => {
     const showModal = () => {setShowLoginModal((prev) => !prev)}
 
   return (
-    <section className="login-bottom">
+    <div className="login-bottom">
         <button onClick={showModal}>Login</button>
-        {showLoginModal ? (<LoginModal onClose={() => setShowLoginModal(false)} />):''}
-    </section>
+      {showLoginModal ? (<LoginModal onClose={() => setShowLoginModal(false)} />):''}
+      
+      </div>
   )
 }
 
