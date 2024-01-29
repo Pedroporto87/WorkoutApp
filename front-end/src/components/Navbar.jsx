@@ -9,9 +9,11 @@ export const Navbar = () => {
     <nav>
         <section className='conteiner'>
             <h1>Workout Mate</h1>
-            <LoginBottom />
-            <br />
-            <SignupButtom /> 
+            <section className='login-signup-buttons'>
+              <LoginBottom />
+              <br />
+              <SignupButtom />
+             </section>
         </section>
     </nav>
   )

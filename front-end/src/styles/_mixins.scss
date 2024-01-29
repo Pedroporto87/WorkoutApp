@@ -48,6 +48,9 @@
       label{
         color: cornflowerblue;
       }
+      input{
+        @include form-input;
+      }
       
     }
     a{
@@ -86,4 +89,19 @@
                 border: #333;
             }
         }
+}
+
+@mixin form-input{
+    display: block;
+    width: 80%;
+    border: 1px solid cornflowerblue ;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: "Poppins";
+    font-weight: bold;
+    color: cornflowerblue;
+    &:hover{
+      border-color: rgb(28, 108, 199);
+    }
+  
 }
