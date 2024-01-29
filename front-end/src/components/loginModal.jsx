@@ -1,20 +1,25 @@
 import { useState } from "react";
+import '../styles/components/loginModal.scss'
 
 
-export const LoginModal = () => {
+export const LoginModal = ({onClose=()=>{}}) => {
+
+    
+    function CloseModal(e){
+        e.preventDefault()
+        onClose()
+    }
 
   return (
     <>
         <section className="login-modal">
-        <div className="overlay" onClick={() => closeModal('login')}>
+        <div className="overlay" onClick={CloseModal}>
           <div className="modal">
-            <span className="close" onClick={() => closeModal('login')}>
-              &times;
+            <span className="close" onClick={CloseModal}>
+              X
             </span>
             <h2>Login</h2>
             <form className="form">
-              <label htmlFor="username">Username:</label>
-              <input type="text" id="username" name="username" required />
               <br />
               <label htmlFor="email">E-mail:</label>
               <input type="email" id="email" name="email" required />
@@ -22,7 +27,8 @@ export const LoginModal = () => {
               <label htmlFor="password">Password:</label>
               <input type="password" id="password" name="password" required />
               <br />
-              <button type="button" >
+              <a>Não possui conta? Clique aqui</a>
+              <button type="button" className="modal-button">
                 Login
               </button>
             </form>

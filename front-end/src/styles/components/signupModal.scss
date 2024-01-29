@@ -1,5 +1,14 @@
 @import '../mixins';
 
 .signup-modal{
-    @include modal
+    @include modal;
+    .overlay{
+         .modal{
+        a{
+        margin: 0.5rem
+    }
+    }
+    }
+   
+    
 }
