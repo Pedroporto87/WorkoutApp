@@ -1,6 +1,7 @@
 require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const bodyParser = require("body-parser")
 const workingRoutes =  require('./routes/workout')
@@ -13,6 +14,7 @@ const app = express()
 app.use(cors())
 app.use(express.static('public'));
 app.use(express.json())
+app.use(cookieParser())
 
 
 app.use("/api/workouts", workingRoutes)
