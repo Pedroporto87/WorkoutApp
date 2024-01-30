@@ -14,16 +14,19 @@ export const SignupModal = ({onClose=()=>{}}) => {
             <span className="close" onClick={CloseModal}>
               X
             </span>
-            <h2>Sign Up</h2>
+            <h2>Cadastro</h2>
             <form className="form">
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="username">Nome:</label>
               <input type="text" id="username" name="username" required />
               <br />
               <label htmlFor="username">E-mail:</label>
               <input type="text" id="email" name="email" required />
               <br />
-              <label htmlFor="newPassword">Password:</label>
+              <label htmlFor="password">Senha:</label>
               <input type="password" id="password" name="password" required />
+              <br />
+              <label htmlFor="confirmpass">Confirme sua senha:</label>
+              <input type="confirmpass" id="confirmpass" name="confirmpass" required />
               <br />
               <a>Já possui conta? Clique aqui</a>
               <button type="button" >
