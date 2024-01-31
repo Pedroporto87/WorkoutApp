@@ -1,16 +1,20 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLoginModal } from '../features/modalSlice';
 import { LoginModal } from './loginModal'
 import '../styles/components/loginBottom.scss'
 
 export const LoginBottom = () => {
-    const [showLoginModal, setShowLoginModal] = useState(false);
+  const dispatch = useDispatch();
+  const { showLoginModal } = useSelector((state) => state.modal);
 
-    const showModal = () => {setShowLoginModal((prev) => !prev)}
+    const showModal = () => {
+      dispatch(toggleLoginModal());
+    };
 
   return (
     <div className="login-bottom">
         <button onClick={showModal}>Login</button>
-      {showLoginModal ? (<LoginModal onClose={() => setShowLoginModal(false)} />):''}
+      {showLoginModal ? <LoginModal />:''}
       
       </div>
   )

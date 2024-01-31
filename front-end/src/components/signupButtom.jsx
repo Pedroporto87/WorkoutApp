@@ -1,15 +1,19 @@
 import { SignupModal } from "./signupModal"
-import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSignupModal } from '../features/modalSlice';
 import '../styles/components/signupBottom.scss'
 
 export const SignupButtom = () => {
-    const [showSignupModal, setShowSignupModal] = useState(false);
+  const dispatch = useDispatch();
+  const { showSignupModal } = useSelector((state) => state.modal);
 
-    const showModal = () => {setShowSignupModal((prev) => !prev)}
+  const showModal = () => {
+    dispatch(toggleSignupModal());
+  };
   return (
     <section className="sign-up-bottom">
         <button onClick={showModal}>Sign Up</button>
-        {showSignupModal ? (<SignupModal onClose={() => setShowSignupModal(false)} />):''}
+        {showSignupModal ? <SignupModal />:''}
         
     </section>
   )
