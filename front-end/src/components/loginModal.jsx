@@ -1,15 +1,13 @@
 import '../styles/components/loginModal.scss'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleSignupModal, toggleLoginModal } from '../features/modalSlice';
 
 export const LoginModal = () => {
   const dispatch = useDispatch();
-  const { showLoginModal } = useSelector((state) => state.modal);
     
   const closeAndToggleLoginModal = (e) => {
-    dispatch(toggleSignupModal());
     dispatch(toggleLoginModal());
-    
+    dispatch(toggleSignupModal());
   };
 
   return (

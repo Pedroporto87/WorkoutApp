@@ -9,9 +9,7 @@ export const SignupModal = () => {
 
   const closeAndToggleLoginModal = (e) => {
     dispatch(toggleSignupModal());
-    dispatch(toggleLoginModal());
-    showSignupModal(true)
-    
+    dispatch(toggleLoginModal());    
   };
 
 
