@@ -1,17 +1,27 @@
 import '../styles/components/signupModal.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSignupModal, toggleLoginModal } from '../features/modalSlice';
 
-export const SignupModal = ({onClose=()=>{}}) => {
+export const SignupModal = () => {
+  const dispatch = useDispatch();
 
-    function CloseModal(e){
-        e.preventDefault()
-        onClose()
-    }
+  const { showSignupModal } = useSelector((state) => state.modal);
+
+  const closeAndToggleLoginModal = (e) => {
+    dispatch(toggleSignupModal());
+    dispatch(toggleLoginModal());
+    showSignupModal(true)
+    
+  };
+
+
+
   return (
     <>
         <section className='signup-modal'>
-        <div className="overlay" onClick={CloseModal}>
+        <div className="overlay">
           <div className="modal">
-            <span className="close" onClick={CloseModal}>
+            <span className="close" onClick={() => dispatch(toggleSignupModal())}>
               X
             </span>
             <h2>Cadastro</h2>
@@ -28,9 +38,9 @@ export const SignupModal = ({onClose=()=>{}}) => {
               <label htmlFor="confirmpass">Confirme sua senha:</label>
               <input type="confirmpass" id="confirmpass" name="confirmpass" required />
               <br />
-              <a>Já possui conta? Clique aqui</a>
+              <a href="#" onClick={() => closeAndToggleLoginModal()}>Já possui conta? Clique aqui</a>
               <button type="button" >
-                Sign Up
+                Cadastrar
               </button>
             </form>
           </div>

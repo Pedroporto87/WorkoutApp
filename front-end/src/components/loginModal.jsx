@@ -1,21 +1,23 @@
-import { useState } from "react";
 import '../styles/components/loginModal.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSignupModal, toggleLoginModal } from '../features/modalSlice';
 
-
-export const LoginModal = ({onClose=()=>{}}) => {
-
+export const LoginModal = () => {
+  const dispatch = useDispatch();
+  const { showLoginModal } = useSelector((state) => state.modal);
     
-    function CloseModal(e){
-        e.preventDefault()
-        onClose()
-    }
+  const closeAndToggleLoginModal = (e) => {
+    dispatch(toggleSignupModal());
+    dispatch(toggleLoginModal());
+    
+  };
 
   return (
     <>
         <section className="login-modal">
-        <div className="overlay" onClick={CloseModal}>
+        <div className="overlay" onClick={() => dispatch(toggleLoginModal())}>
           <div className="modal">
-            <span className="close" onClick={CloseModal}>
+            <span className="close">
               X
             </span>
             <h2>Login</h2>
@@ -27,7 +29,7 @@ export const LoginModal = ({onClose=()=>{}}) => {
               <label htmlFor="password">Password:</label>
               <input type="password" id="password" name="password" required />
               <br />
-              <a>Não possui conta? Clique aqui</a>
+              <a href="#" onClick={() => closeAndToggleLoginModal()}>Não possui conta? Clique aqui</a>
               <button type="button" className="modal-button">
                 Login
               </button>
