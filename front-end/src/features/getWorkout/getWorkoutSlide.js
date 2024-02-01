@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export const fetchApiData = createAsyncThunk('getWorkout', async () => {
-      const response = await axios.get(`http://localhost:4000/api/workouts`);
+      const response = await axios.get(`http://localhost:4000/workouts`);
       return response.data;
   });
 
@@ -70,26 +70,21 @@ const getWorkoutSlice = createSlice({
 
 
   export const postWorkout = createAsyncThunk('postWorkout', async(data) => {
-        const response = await axios.post('http://localhost:4000/api/workouts/', data)
+        const response = await axios.post('http://localhost:4000/workouts/', data)
         return response.data
 })
 
 export const updateWorkout = createAsyncThunk('editWorkout', async({ id, data }) => {
-  try{
-  const response = await axios.patch(`http://localhost:4000/api/workouts/${id}`, data)
+ 
+  const response = await axios.patch(`http://localhost:4000/workouts/${id}`, data)
   return response.data
-  }catch (error) {
-    throw error;
-  }
 })
 
-export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', async(id) => {
-    try {
-      await axios.delete(`http://localhost:4000/api/workouts/${id}`);
+export const deleteWorkout = createAsyncThunk('deleteWorkout', async(id) => {
+   
+      await axios.delete(`http://localhost:4000/workouts/${id}`);
       return id;
-    } catch (error) {
-      throw error;
-    }
+    
   }
 );
 
