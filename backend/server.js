@@ -11,7 +11,8 @@ const userRoutes = require('./routes/userRoutes')
 const serieRoutes = require('./routes/seriesRoutes')
 
 const app = express()
-app.use(cors())
+app.use(cors({ 
+    withCredentials : true }))
 app.use(express.static('public'));
 app.use(express.json())
 app.use(cookieParser())
