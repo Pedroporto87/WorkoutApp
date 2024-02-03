@@ -2,7 +2,8 @@ const express = require('express')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
-const createToken = require('../utils/generateToken')
+const createToken = require('../utils/generateToken');
+const { create } = require('domain');
 
 
 const registerUser = async (req, res) => {
@@ -51,15 +52,14 @@ const loginUser = async (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).select("+password")
 
     if(!user){
         res.status(400).json({msg: "O e-mail não possui cadastro"})
     }
     const checkpassword = await bcrypt.compare(password, user.password)
     if (checkpassword) {
-        createToken(res, user._id);
-    
+    createToken( res, user._id);  
         res.json({
           _id: user._id,
           name: user.name,

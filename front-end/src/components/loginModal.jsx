@@ -50,7 +50,7 @@ export const LoginModal = () => {
               X
             </span>
             <h2>Login</h2>
-            <form className="form" onClick={submitHandler}>
+            <form className="form" onSubmit={submitHandler}>
               <br />
               <label htmlFor="email">E-mail:</label>
               <input type="email" id="email" value={email} placeholder='Coloque seu e-mail aqui!' name="email" required  onChange={(e) => setEmail(e.target.value)}/>
