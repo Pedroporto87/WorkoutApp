@@ -1,0 +1,5 @@
+20240204	11:20:27	029c5f74-666e-483b-9424-5bc4964146bf	OPTIONS	/api/auth/login	http://localhost:5173
+20240204	11:20:27	ab302174-89af-4159-aef0-c58c5c795359	POST	/api/auth/login	http://localhost:5173
+20240204	12:39:38	5d64cf8c-82d0-494f-877e-470d48c8caf8	OPTIONS	/api/auth/login	http://localhost:5173
+20240204	12:40:24	87b732b2-b575-4188-9ee1-dd64df42e5f0	OPTIONS	/api/auth/login	http://localhost:5173
+20240204	12:40:24	d6c7b8e2-8b56-4780-bb65-6e92a8c421f7	POST	/api/auth/login	http://localhost:5173
