@@ -3,3 +3,8 @@
 20240204	12:39:38	5d64cf8c-82d0-494f-877e-470d48c8caf8	OPTIONS	/api/auth/login	http://localhost:5173
 20240204	12:40:24	87b732b2-b575-4188-9ee1-dd64df42e5f0	OPTIONS	/api/auth/login	http://localhost:5173
 20240204	12:40:24	d6c7b8e2-8b56-4780-bb65-6e92a8c421f7	POST	/api/auth/login	http://localhost:5173
+20240207	13:08:44	d5dd7502-af57-43df-afb2-42c652489126	GET	/workouts	http://localhost:5173
+20240207	19:18:38	0662e396-1f37-4e59-8a2b-e4b6c0650e7a	GET	/workouts	http://localhost:5173
+20240207	19:18:39	d8445b28-31d6-4ac0-acb5-b8e6154a059d	GET	/series	http://localhost:5173
+20240207	19:27:54	c9aa27ea-f1f2-4d1f-8af9-1da34cb2f632	GET	/workouts	http://localhost:5173
+20240207	19:27:54	556c4a45-cc85-4cf7-ad61-9558e053882d	GET	/series	http://localhost:5173

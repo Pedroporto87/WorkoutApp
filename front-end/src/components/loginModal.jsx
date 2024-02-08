@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSignupModal, toggleLoginModal } from '../features/modalSlice';
-import { useLoginMutation } from '../features/usersApiSlice';
-import { setCredentials } from '../features/authSlice';
+//import { useLoginMutation } from '../features/usersApiSlice';
+//import { setCredentials } from '../features/authSlice';
 import { toast } from 'react-toastify'
 
 
@@ -15,7 +15,7 @@ export const LoginModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const [login, { isLoading }] = useLoginMutation();
+  //const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -33,8 +33,8 @@ export const LoginModal = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
+      //const res = await login({ email, password }).unwrap();
+      //dispatch(setCredentials({ ...res }));
       toast.success({msg: "Você esta logado"})
     } catch (error) {
      toast.error({ msg: "Erro no login, confia email e senha"})
@@ -59,7 +59,7 @@ export const LoginModal = () => {
               <input type="password" placeholder='Coloque sua senha aqui!' value={password} id="password" name="password" required  onChange={(e) => setPassword(e.target.value)}/>
               <br />
               <a href="#" onClick={() => closeAndToggleLoginModal()}>Não possui conta? Clique aqui</a>
-              <button type="submit" className="modal-button" disabled={isLoading}>
+              <button type="submit" className="modal-button" >
                 Login
               </button>
             </form>
