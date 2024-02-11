@@ -1,19 +1,20 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const asyncHandler = require('async-handler')
+const asyncHandler = require('express-async-handler')
 require('dotenv').config()
+
 // @desc Login
 // @route POST /auth
 // @access Public
 const login = asyncHandler(async (req, res) => {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
-    const foundUser = await User.findOne({ username }).exec()
+    const foundUser = await User.findOne({ email })
 
     const match = await bcrypt.compare(password, foundUser.password)
 
@@ -23,17 +24,18 @@ const login = asyncHandler(async (req, res) => {
         {
             "UserInfo": {
                 "username": foundUser.username,
-                "email": foundUser.email
+                "email": foundUser.email,
+                "id": foundUser._id.toString(),
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15m' }
+        { expiresIn: '15d' }
     )
 
     const refreshToken = jwt.sign(
-        { "username": foundUser.username },
+        { "email": foundUser.email, "id": foundUser._id, },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '15d' }
     )
 
     // Create secure cookie with refresh token 
@@ -72,7 +74,7 @@ const refresh = (req, res) => {
                 {
                     "UserInfo": {
                         "username": foundUser.username,
-                        "email": foundUser.email
+                        "id": foundUser._id,
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,

@@ -1,6 +1,6 @@
 const User = require('../models/userModel')
 const Serie = require('../models/seriesModel')
-const asyncHandler = require('async-handler')
+const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 
 // @desc Get all users

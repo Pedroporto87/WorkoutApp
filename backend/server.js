@@ -31,7 +31,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/series", serieRoutes)
 //app.use("/api/user", userRoutes)
-app.all('*', (req, res) => {
+/*app.all('*', (req, res) => {
     res.status(404)
     if (req.accepts('html')) {
         res.sendFile(path.join(__dirname, 'views', '404.html'))
@@ -40,7 +40,7 @@ app.all('*', (req, res) => {
     } else {
         res.type('txt').send('404 Not Found')
     }
-})
+})*/
 
 app.use(errorHandler)
 mongoose.connect(process.env.MONGO_URI)

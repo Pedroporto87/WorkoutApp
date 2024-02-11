@@ -1,15 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const authController = require('../controllers/authControllers')
+const express = require('express');
+const router = express.Router();
+const { login, refresh, logout } = require('../controllers/authControllers');
+const loginLimiter = require('../helpers/loginLimiter');
 
+// Correção: Use router.post() para definir rotas POST
+router.post("/login", loginLimiter, login);
 
-router.route('/')
-    .post( authController.login)
+// Correção: Use router.get() para definir rotas GET
+router.get("/refresh", refresh);
 
-router.route('/refresh')
-    .get(authController.refresh)
+// Correção: Use router.post() para definir rotas POST
+router.post("/logout", logout);
 
-router.route('/logout')
-    .post(authController.logout)
-
-module.exports = router
+module.exports = router;

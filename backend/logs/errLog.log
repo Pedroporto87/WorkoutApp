@@ -1,1 +1,2 @@
 20240204	12:39:38	213bdccf-c10a-4cff-9668-49c8efc75ea8	Error: Not allowed by CORS	OPTIONS	/api/auth/login	http://localhost:5173
+20240209	10:44:14	c3c06f4a-dcf9-49b9-9f4d-07699c18b018	TypeError: res.save is not a function	POST	/api/auth/login/	undefined

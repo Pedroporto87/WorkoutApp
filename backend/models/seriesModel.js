@@ -6,9 +6,11 @@ const seriesSchema = new Schema({
         type: String,
         required: true
     },
-    userId: {
-        type: mongoose.ObjectId
-    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }
 })
 
 module.exports = mongoose.model('Serie', seriesSchema)
