@@ -36,7 +36,7 @@ const handleSubmit = async (e) => {
           email: formData.email,
           password: formData.password, // Ajuste esses campos conforme a necessidade do seu backend
       }).unwrap();
-      dispatch(toggleSignupModal()); // Fechar o modal após o sucesso
+      dispatch(toggleSignupModal());
       alert('Usuário cadastrado com sucesso!');
   } catch (err) {
       alert('Falha ao cadastrar usuário');

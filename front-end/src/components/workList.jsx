@@ -4,24 +4,19 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
 import { WorkoutItem } from './workoutTable';
-import { SeriesTabs } from './worklistTabs';
-import { useGetSeriesQuery } from "../features/seriesApiSlice"
+import { SeriesTabs } from './SeriesTabs';
+
 
 export const WorkoutList = () => {
   const [editedValues, setEditedValues] = useState({});
   const dispatch = useDispatch();
   const data = useSelector((state) => state.workout.data);
-  const {
-    data: series,
-    isLoading,
-    isSuccess,
-    isError,
-    error
-    } = useGetSeriesQuery()
-  
-  let content
+  const [selectedSerieId, setSelectedSerieId] = useState(null);
 
-  if (isLoading) content = <p>Loading...</p>
+  const handleSerieSelected = (id) => {
+      setSelectedSerieId(id);
+  };
+  
 
   useEffect(() => {
     dispatch(fetchApiData());
@@ -35,22 +30,13 @@ export const WorkoutList = () => {
     }));
   };
 
-  if (isError) {
-      content = <p className="errmsg">{error?.data?.message}</p>
-  }
-
-  if (isSuccess) {
-    const { ids } = series
-
-    const tableTabs = ids?.length
-        ? ids.map(serieId => <SeriesTabs key={serieId} serieId={serieId} />)
-        : null
 
 
-  content = (
+
+  return (
   <>
       <section className='table-conteiner'>
-        {tableTabs}
+      <SeriesTabs onSerieSelected={handleSerieSelected} />
       <table>
         <thead>
           <tr>
@@ -80,7 +66,7 @@ export const WorkoutList = () => {
         </section>
     </>
     )
-  }
+  
 }
 
 
