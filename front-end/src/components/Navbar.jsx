@@ -4,6 +4,7 @@ import { LoginBottom } from './loginButtom'
 import { SignupButtom } from './signupButtom'
 
 
+
 export const Navbar = () => {
   return (
     <nav>

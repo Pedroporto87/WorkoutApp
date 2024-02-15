@@ -1,2 +1,5 @@
 20240204	12:39:38	213bdccf-c10a-4cff-9668-49c8efc75ea8	Error: Not allowed by CORS	OPTIONS	/api/auth/login	http://localhost:5173
 20240209	10:44:14	c3c06f4a-dcf9-49b9-9f4d-07699c18b018	TypeError: res.save is not a function	POST	/api/auth/login/	undefined
+20240211	15:28:36	9ec35860-4a05-4836-b3a8-0eab85003708	ReferenceError: id is not defined	PATCH	/api/user/	undefined
+20240211	15:32:11	dc1e2555-88bb-4c18-b24d-992110c8c765	ReferenceError: username is not defined	PATCH	/api/user/	undefined
+20240211	15:32:30	4d0684ba-e66d-4e22-954c-6f19497fdd73	ValidationError: User validation failed: email: Path `email` is required.	PATCH	/api/user/	undefined

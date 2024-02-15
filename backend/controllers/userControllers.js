@@ -22,15 +22,15 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, password, email } = req.body
+    const { name, password, email } = req.body
 
     // Confirm data
-    if (!username || !password || !email ) {
+    if (!name || !password || !email ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
     // Check for duplicate username
-    const duplicate = await User.findOne({ username }).lean().exec()
+    const duplicate = await User.findOne({ email }).lean().exec()
 
     if (duplicate) {
         return res.status(409).json({ message: 'Duplicate username' })
@@ -39,13 +39,13 @@ const createNewUser = asyncHandler(async (req, res) => {
     // Hash password 
     const hashedPwd = await bcrypt.hash(password, 10) // salt rounds
 
-    const userObject = { username, "password": hashedPwd, roles }
+    const userObject = { name, "password": hashedPwd, email }
 
     // Create and store new user 
     const user = await User.create(userObject)
 
     if (user) { //created 
-        res.status(201).json({ message: `New user ${username} created` })
+        res.status(201).json({ message: `New user ${name} created` })
     } else {
         res.status(400).json({ message: 'Invalid user data received' })
     }
@@ -55,71 +55,65 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, email, password } = req.body
+    const { name, email, password } = req.body;
+    const userId = req.id;
 
-    // Confirm data 
-    if (!id || !username || !Array.isArray(roles) || !email.length !== 'boolean') {
-        return res.status(400).json({ message: 'All fields except password are required' })
-    }
-
-    // Does the user exist to update?
-    const user = await User.findById(id).exec()
+    // Verifica se o usuário existe para atualizar
+    const user = await User.findById(userId).exec();
 
     if (!user) {
-        return res.status(400).json({ message: 'User not found' })
+        return res.status(400).json({ message: 'User not found' });
     }
 
-    // Check for duplicate 
-    const duplicate = await User.findOne({ username }).lean().exec()
-
-    // Allow updates to the original user 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: 'Duplicate username' })
+    // Verifica se o email já existe, mas ignora o próprio usuário
+    if (email) {
+        const duplicate = await User.findOne({ email }).lean().exec();
+        if (duplicate && duplicate._id.toString() !== userId) {
+            return res.status(409).json({ message: 'Duplicate email' });
+        }
     }
 
-    user.username = username
-    user.email = email
-
+    // Atualiza apenas os campos fornecidos
+    if (name) user.name = name;
+    if (email) user.email = email;
     if (password) {
-        // Hash password 
-        user.password = await bcrypt.hash(password, 10) // salt rounds 
+        // Hash da senha
+        user.password = await bcrypt.hash(password, 10); // salt rounds
     }
 
-    const updatedUser = await user.save()
+    const updatedUser = await user.save();
 
-    res.json({ message: `${updatedUser.username} updated` })
-})
+    res.json({ message: `${updatedUser.name} updated` });
+});
 
 // @desc Delete a user
 // @route DELETE /users
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req; 
 
-    // Confirm data
     if (!id) {
-        return res.status(400).json({ message: 'User ID Required' })
+        return res.status(400).json({ message: 'User ID Required' });
     }
 
-    // Does the user still have assigned notes?
-    const serie = await Serie.findOne({ user: id }).lean().exec()
-    if (serie) {
-        return res.status(400).json({ message: 'User has assigned notes' })
+    // Verifica se o usuário tem séries atribuídas antes de permitir a exclusão
+    const hasSeries = await Serie.findOne({ user: id }).lean();
+    if (hasSeries) {
+        return res.status(400).json({ message: 'User has assigned series and cannot be deleted.' });
     }
 
-    // Does the user exist to delete?
-    const user = await User.findById(id).exec()
+    // Tenta encontrar e excluir o usuário
+    const deletedUser = await User.findByIdAndDelete(id);
 
-    if (!user) {
-        return res.status(400).json({ message: 'User not found' })
+    if (!deletedUser) {
+        return res.status(404).json({ message: 'User not found' });
     }
 
-    const result = await user.deleteOne()
+    // Monta a resposta
+    const reply = `User ${deletedUser.username} with ID ${deletedUser._id} deleted`;
+    res.json({ message: reply });
+});
 
-    const reply = `Username ${result.username} with ID ${result._id} deleted`
-
-    res.json(reply)
-})
 
 module.exports = {
     getAllUsers,
