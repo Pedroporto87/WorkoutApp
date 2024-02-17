@@ -1,27 +1,56 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useAddNewSerieMutation, selectAllSeries } from '../features/seriesApiSlice'; // Ajuste o caminho conforme necessário
+
+import { useAddNewSerieMutation, useGetSeriesQuery } from '../features/seriesApiSlice';
+import { useState, useEffect } from 'react';
+
+
 
 export const SeriesTabs = ({ onSerieSelected }) => {
-    const series = useSelector(selectAllSeries);
+    const [title, setTitle] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { data: series, isError, isLoading } = useGetSeriesQuery();
     const [addNewSerie] = useAddNewSerieMutation();
-    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        if (series?.ids?.length > 0) {
+            onSerieSelected(series.ids[0]);
+        }
+    }, [series, onSerieSelected]);
+
+    const handleSelectSerie = (id) => {
+        onSerieSelected(id); // Chama a função passada via props com o id da série selecionada
+    };
 
     const handleAddSerie = async () => {
+        if (!title.trim()) return;
         const newSerie = { title };
         await addNewSerie(newSerie).unwrap();
-        // Atualize a lista de séries após adicionar uma nova
-        dispatch(/* sua ação para atualizar a lista de séries */);
+        setTitle('');
+        setIsModalOpen(false);
     };
+    
+    if (isLoading) return <div>Carregando séries...</div>;
+    if (isError) return <div>Erro ao carregar séries.</div>;
 
     return (
         <div className="tabs">
-            {series.map((serie) => (
-                <button key={serie.id} onClick={() => onSerieSelected(serie.id)}>
-                    Série {serie.id}
+             {series?.ids?.map((id, index) => (
+                <button key={id} onClick={() => handleSelectSerie(id)}>
+                    Série {index + 1}
                 </button>
             ))}
-            <button onClick={handleAddSerie}>+</button>
+            <button onClick={() => setIsModalOpen(true)}>+</button>
+            {isModalOpen && (
+                <div className="modal">
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Título da Série"
+                    />
+                    <button onClick={handleAddSerie}>Ok</button>
+                    <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
+                </div>
+            )}
         </div>
     );
 };
-

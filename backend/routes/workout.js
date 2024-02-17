@@ -4,10 +4,11 @@
          getAllWorkouts, 
          deleteWorkout, 
          updateWorkout } = require('../controllers/workoutControllers')
- 
- 
+const verifyJWT = require('../helpers/verifyJWT')
 
  const router = express.Router()
+
+ router.use(verifyJWT)
 
  router.get("/:serieId/get-all", getAllWorkouts)
 

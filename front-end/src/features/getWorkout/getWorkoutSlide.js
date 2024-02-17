@@ -2,10 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-export const fetchApiData = createAsyncThunk('getWorkout', async () => {
-      const response = await axios.get(`http://localhost:4000/workouts`);
-      return response.data;
-  });
+
+export const fetchApiData = createAsyncThunk('getWorkout', async (serieId) => {
+  const response = await axios.get(`http://localhost:4000/api/workouts/${serieId}/get-all`)
+  return response.data;
+});
 
   
 const getWorkoutSlice = createSlice({
@@ -69,8 +70,8 @@ const getWorkoutSlice = createSlice({
 
 
 
-  export const postWorkout = createAsyncThunk('postWorkout', async(data) => {
-        const response = await axios.post('http://localhost:4000/workouts/', data)
+  export const postWorkout = createAsyncThunk('postWorkout', async(data, serieId) => {
+        const response = await axios.post(`http://localhost:4000/workouts/${serieId}/createworkout`, data)
         return response.data
 })
 

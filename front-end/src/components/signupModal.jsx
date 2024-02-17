@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleSignupModal, toggleLoginModal } from '../features/modalSlice';
 import { useAddNewUserMutation } from '../features/usersApiSlice'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { setCredentials } from '../features/authSlice'
+import { useLoginMutation } from '../features/authApiSlide'
 export const SignupModal = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [addNewUser] = useAddNewUserMutation()
+  const [login, { isLoading }] = useLoginMutation();
   const { showSignupModal } = useSelector((state) => state.modal);
 
   const closeAndToggleLoginModal = () => {
@@ -36,6 +41,9 @@ const handleSubmit = async (e) => {
           email: formData.email,
           password: formData.password, // Ajuste esses campos conforme a necessidade do seu backend
       }).unwrap();
+      const { accessToken } = await login({ email: formData.email, password: formData.password }).unwrap()
+      dispatch(setCredentials({ accessToken }))
+      navigate('/aluno-dashboard')
       dispatch(toggleSignupModal());
       alert('Usuário cadastrado com sucesso!');
   } catch (err) {
@@ -55,7 +63,7 @@ const handleSubmit = async (e) => {
             <h2>Cadastro</h2>
             <form className="form" onSubmit={handleSubmit}>
               <label htmlFor="username">Nome:</label>
-              <input type="text" id="username" name="name" required onChange={handleChange} value={formData.name}/>
+              <input type="text" id="username" name="name" required  autoComplete="off" onChange={handleChange} value={formData.name}/>
               <br />
               <label htmlFor="username">E-mail:</label>
               <input type="text" id="email" name="email" required onChange={handleChange} value={formData.email}/>
@@ -67,7 +75,7 @@ const handleSubmit = async (e) => {
               <input type="password" id="confirmpass" name="confirmpass" required onChange={handleChange} value={formData.confirmpass} />
               <br />
               <a href="#" onClick={() => closeAndToggleLoginModal()}>Já possui conta? Clique aqui</a>
-              <button type="submit" >
+              <button type="submit" disabled={isLoading}>
                 Cadastrar
               </button>
             </form>

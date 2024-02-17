@@ -3,3 +3,5 @@
 20240211	15:28:36	9ec35860-4a05-4836-b3a8-0eab85003708	ReferenceError: id is not defined	PATCH	/api/user/	undefined
 20240211	15:32:11	dc1e2555-88bb-4c18-b24d-992110c8c765	ReferenceError: username is not defined	PATCH	/api/user/	undefined
 20240211	15:32:30	4d0684ba-e66d-4e22-954c-6f19497fdd73	ValidationError: User validation failed: email: Path `email` is required.	PATCH	/api/user/	undefined
+20240216	14:33:37	436ab711-aab8-4a2b-a3f8-61e2e68a46b8	TypeError: Cannot read properties of null (reading 'password')	POST	/api/auth/login	http://localhost:5173
+20240216	18:20:56	2efb0e2a-2bc9-423b-999a-ff9f5f3d6756	TypeError: Cannot read properties of null (reading 'password')	POST	/api/auth/login	http://localhost:5173
