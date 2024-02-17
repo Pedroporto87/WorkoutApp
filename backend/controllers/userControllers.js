@@ -1,59 +1,123 @@
-const Aluno = require('../models/userModel')
-const jwt = require('jsonwebtoken')
-require('dotenv').config()
+const User = require('../models/userModel')
+const Serie = require('../models/seriesModel')
+const asyncHandler = require('express-async-handler')
+const bcrypt = require('bcrypt')
 
+// @desc Get all users
+// @route GET /users
+// @access Private
+const getAllUsers = asyncHandler(async (req, res) => {
+    // Get all users from MongoDB
+    const users = await User.find().select('-password').lean()
 
-const createToken = (_id, res) => {
-    const generateToken = jwt.sign({_id}, process.env.SECRET, { expiresIn: '30days'})
-    res.cookie('jwt', generateToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development',
-        sameSite: 'strict',
-        maxAge: 30 * 24 * 60  * 60 * 1000
-    })
-}
-//login user
-const loginUser = async (req,res) => {
-    const {name, email, password} = req.body
-
-    try{
-        const user = await User.login( name, email, password )
-        const token = createToken(user._id)
-
-        res.status(200).json({name, email, token})
-    } catch(error) {
-        res.status(400).json({error: error.message})
+    // If no users 
+    if (!users?.length) {
+        return res.status(400).json({ message: 'No users found' })
     }
 
-    res.json({msg: 'Usuario cadastrado'})
-}
+    res.json(users)
+})
 
-//signup user
+// @desc Create new user
+// @route POST /users
+// @access Private
+const createNewUser = asyncHandler(async (req, res) => {
+    const { name, password, email } = req.body
 
-const signupUser = async (req,res) => {
-    const {name, email, password} = req.body
-
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-      res.status(400);
-      throw new Error('User already exists');
+    // Confirm data
+    if (!name || !password || !email ) {
+        return res.status(400).json({ message: 'All fields are required' })
     }
-    
-    try{
-        const user = await User.create( name, email, password)
 
-        if (user) {
-            createToken(res, user._id);}
+    // Check for duplicate username
+    const duplicate = await User.findOne({ email }).lean().exec()
 
-        res.status(200).json({      
-            _id: user._id,
-            name: user.name,
-            email: user.email,})
-
-    } catch(error) {
-        res.status(400).json({error: error.message})
+    if (duplicate) {
+        return res.status(409).json({ message: 'Duplicate username' })
     }
-}
 
-module.exports = { loginUser, signupUser }
+    // Hash password 
+    const hashedPwd = await bcrypt.hash(password, 10) // salt rounds
+
+    const userObject = { name, "password": hashedPwd, email }
+
+    // Create and store new user 
+    const user = await User.create(userObject)
+
+    if (user) { //created 
+        res.status(201).json({ message: `New user ${name} created` })
+    } else {
+        res.status(400).json({ message: 'Invalid user data received' })
+    }
+})
+
+// @desc Update a user
+// @route PATCH /users
+// @access Private
+const updateUser = asyncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
+    const userId = req.id;
+
+    // Verifica se o usuário existe para atualizar
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Verifica se o email já existe, mas ignora o próprio usuário
+    if (email) {
+        const duplicate = await User.findOne({ email }).lean().exec();
+        if (duplicate && duplicate._id.toString() !== userId) {
+            return res.status(409).json({ message: 'Duplicate email' });
+        }
+    }
+
+    // Atualiza apenas os campos fornecidos
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) {
+        // Hash da senha
+        user.password = await bcrypt.hash(password, 10); // salt rounds
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({ message: `${updatedUser.name} updated` });
+});
+
+// @desc Delete a user
+// @route DELETE /users
+// @access Private
+const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req; 
+
+    if (!id) {
+        return res.status(400).json({ message: 'User ID Required' });
+    }
+
+    // Verifica se o usuário tem séries atribuídas antes de permitir a exclusão
+    const hasSeries = await Serie.findOne({ user: id }).lean();
+    if (hasSeries) {
+        return res.status(400).json({ message: 'User has assigned series and cannot be deleted.' });
+    }
+
+    // Tenta encontrar e excluir o usuário
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Monta a resposta
+    const reply = `User ${deletedUser.username} with ID ${deletedUser._id} deleted`;
+    res.json({ message: reply });
+});
+
+
+module.exports = {
+    getAllUsers,
+    createNewUser,
+    updateUser,
+    deleteUser
+}

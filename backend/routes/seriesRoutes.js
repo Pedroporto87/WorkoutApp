@@ -1,15 +1,18 @@
 const router =  require('express').Router()
-const verifyToken = require("../helpers/check-token")
-const { getUserSeries, 
-        createSeries,
+const { getAllSeries, 
         getSeries,
-        deleteSeries,
-        updateSeries } = require("../controllers/serieControllers")
+        createNewSerie,
+        updateSerie,
+        deleteSerie} = require("../controllers/serieControllers")
+const verifyJWT = require('../helpers/verifyJWT')
 
-router.get("/userserie/:_id", verifyToken, getUserSeries)
-router.post("/",verifyToken, createSeries)
-router.get("/:_id", getSeries)
-router.delete("/", verifyToken, deleteSeries)
-router.patch("/:id", verifyToken, updateSeries)
+router.use(verifyJWT)
+
+//router.get("/userserie/:_id", getUserSeries)
+//router.get("/", getAllSeries)
+router.post("/", createNewSerie)
+router.get("/", getSeries)
+router.delete("/:id", deleteSerie)
+router.patch("/:id", updateSerie)
 
 module.exports = router

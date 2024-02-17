@@ -1,123 +1,74 @@
-import { useState } from 'react'
-import moment from 'moment'
-import 'moment/locale/pt-br'
+import  { useState } from 'react';
 import { MdOutlineEditNote, MdDeleteForever, MdDone, MdCancel } from "react-icons/md";
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteWorkout } from '../features/getWorkout/getWorkoutSlide';
-import { fetchApiData } from '../features/getWorkout/getWorkoutSlide';
-import { updateWorkout } from '../features/getWorkout/getWorkoutSlide'
-import '../styles/components/workoutDetails.scss'
+import { useDeleteWorkoutMutation, useUpdateWorkoutMutation } from '../features/workoutApiSlide';
 
+export const WorkoutItem = ({ workout }) => {
+  const [editedValues, setEditedValues] = useState({
+    carga: workout.carga,
+    reps: workout.reps,
+    series: workout.series,
+    descanso: workout.descanso,
+  });
+  const [editingWorkoutId, setEditingWorkoutId] = useState(false);
+  const [updateWorkout] = useUpdateWorkoutMutation();
+  const [deleteWorkout] = useDeleteWorkoutMutation();
 
-export const WorkoutItem = ({workout}) => {
-    const [editedValues, setEditedValues] = useState({
-      carga: workout.carga,
-      reps: workout.reps,
-      series: workout.series,
-      descanso: workout.descanso,
-    });
-
-    const [editingWorkoutId, setEditingWorkoutId] = useState(false);
-    const dispatch = useDispatch();
-    const data = useSelector((state) => state.workout.data);
-
-    const handleEditClick = () => {
-    setEditingWorkoutId(true) 
+  const handleEditClick = () => {
+    setEditingWorkoutId(true);
   };
 
-  const handleDeleteClick = async (id) => { 
-    try{
-        await dispatch(deleteWorkout(id))
-        await dispatch(fetchApiData())
-        } catch(error){
-        console.log('Erro ao enviar dados:', error);
-    }
+  const handleDeleteClick = async () => {
+    await deleteWorkout(workout.id);
   };
-  const handleCancelClick = () => {
-    setEditingWorkoutId(false)
-  }
+
   const handleInputChange = (field, value) => {
-    // Atualiza os valores editados no estado local
-    setEditedValues((prevValues) => ({
+    setEditedValues(prevValues => ({
       ...prevValues,
       [field]: value,
     }));
   };
-  
-  const handlePatchClick = async() => {
-    try {    
-      await dispatch(updateWorkout({ id: workout._id, data: editedValues }));
-      await dispatch(fetchApiData())
-      handleCancelClick()
-    } catch (error) {
-      console.error('Erro ao atualizar o treino:', error);
-    }
-  }
-  
-    return (
-     <>
-        <td >{workout.title}</td>
-        <td >
-          {editingWorkoutId === true ? (
-            <input
+
+  const handlePatchClick = async () => {
+    await updateWorkout({ id: workout.id, ...editedValues });
+    setEditingWorkoutId(false);
+  };
+
+  const handleCancelClick = () => {
+    setEditingWorkoutId(false);
+  };
+
+  return (
+    <>
+      <td>{workout.title}</td>
+      {/* Exemplo para 'carga', repita a lógica para outros campos conforme necessário */}
+      <td>
+        {editingWorkoutId ? (
+          <input
             type="text"
             value={editedValues.carga}
-              onChange={(e) => handleInputChange('carga',  e.target.value)}
-            />
-          ) : (
-            workout.carga
-          )}
-        </td>
-        <td>
-          {editingWorkoutId === true ? (
-            <input
-              type="text"
-              value={editedValues.reps}
-              onChange={(e) => handleInputChange('reps',  e.target.value)}
-            />
-          ) : (
-            workout.reps
-          )}
-        </td>
-        <td>
-          {editingWorkoutId === true? (
-            <input
-            type="text"
-            value={editedValues.series}
-              onChange={(e) => handleInputChange('series',  e.target.value)}
-            />
-          ) : (
-            workout.series
-          )}
-        </td>
-        <td>
-          {editingWorkoutId === true ? (
-            <input
-              type="text"
-              value={editedValues.descanso}
-              onChange={(e) => handleInputChange('descanso',  e.target.value)}
-            />
-          ) : (
-            workout.descanso
-          )}
-        </td>
-        <td>{moment(workout.createdAt).locale('pt-br').fromNow()}</td>
-        <td className='edit-card-icons'>
-        {editingWorkoutId === true ? (
+            onChange={(e) => handleInputChange('carga', e.target.value)}
+          />
+        ) : (
+          workout.carga
+        )}
+      </td>
+      {/* Ícones de ação */}
+      <td className='edit-card-icons'>
+        {editingWorkoutId ? (
           <>
-            <MdDone className='ok-button' onClick={() => handlePatchClick(workout._id)} />
-            <MdCancel className='cancel-button' onClick={() => handleCancelClick()} />
+            <MdDone className='ok-button' onClick={handlePatchClick} />
+            <MdCancel className='cancel-button' onClick={handleCancelClick} />
           </>
         ) : (
           <>
-            <MdOutlineEditNote className='edit-button' onClick={() => handleEditClick()} />
-            <MdDeleteForever className='delete-button' onClick={() => handleDeleteClick(workout._id)} />
+            <MdOutlineEditNote className='edit-button' onClick={handleEditClick} />
+            <MdDeleteForever className='delete-button' onClick={handleDeleteClick} />
           </>
-        )}  
-        </td>
-        </>
-      
-    );
-  };
+        )}
+      </td>
+      {/* Repita a lógica para outros campos e ícones conforme necessário */}
+    </>
+  );
+};
  
   

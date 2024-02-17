@@ -1,15 +1,15 @@
-const express = require('express')
-const { registerUser, loginUser, logoutUser, updateUserProfile, getUserProfile } = require("../controllers/authControllers");
-const router = express.Router()
-const protect  = require('../helpers/authMiddleware')
+const express = require('express');
+const router = express.Router();
+const { login, refresh, logout } = require('../controllers/authControllers');
+const loginLimiter = require('../helpers/loginLimiter');
 
-router.post('/register', registerUser )
-router.post("/login", loginUser)
-router.post('/logout', logoutUser)
-router
-    .route('/profile')
-    .get(protect, getUserProfile)
-    .patch(protect, updateUserProfile)
+// Correção: Use router.post() para definir rotas POST
+router.post("/login", loginLimiter, login);
 
-    
-module.exports = router
+// Correção: Use router.get() para definir rotas GET
+router.get("/refresh", refresh);
+
+// Correção: Use router.post() para definir rotas POST
+router.post("/logout", logout);
+
+module.exports = router;
