@@ -1,4 +1,4 @@
-
+import '../styles/components/seriesTabs.css'
 import { useAddNewSerieMutation, useGetSeriesQuery } from '../features/seriesApiSlice';
 import { useState, useEffect } from 'react';
 
@@ -6,10 +6,11 @@ import { useState, useEffect } from 'react';
 
 export const SeriesTabs = ({ onSerieSelected }) => {
     const [title, setTitle] = useState('');
+    const [selectedSerieId, setSelectedSerieId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: series, isError, isLoading } = useGetSeriesQuery();
     const [addNewSerie] = useAddNewSerieMutation();
-    
+
     useEffect(() => {
         if (series?.ids?.length > 0) {
             onSerieSelected(series.ids[0]);
@@ -17,7 +18,9 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     }, [series, onSerieSelected]);
 
     const handleSelectSerie = (id) => {
-        onSerieSelected(id); // Chama a função passada via props com o id da série selecionada
+        onSerieSelected(id);
+        setSelectedSerieId(id)
+        // Chama a função passada via props com o id da série selecionada
     };
 
     const handleAddSerie = async () => {
@@ -30,6 +33,8 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     
     if (isLoading) return <div>Carregando séries...</div>;
     if (isError) return <div>Erro ao carregar séries.</div>;
+
+    
 
     return (
         <div className="tabs">
@@ -51,6 +56,9 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                     <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
                 </div>
             )}
+            <div className="selected-serie-title">
+            <p>{series?.entities[selectedSerieId]?.title || 'Série não encontrada'}</p>
+            </div>
         </div>
     );
 };

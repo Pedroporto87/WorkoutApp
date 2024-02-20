@@ -1,8 +1,10 @@
 import  { useState } from 'react';
 import { MdOutlineEditNote, MdDeleteForever, MdDone, MdCancel } from "react-icons/md";
 import { useDeleteWorkoutMutation, useUpdateWorkoutMutation } from '../features/workoutApiSlide';
+import '../styles/components/workoutDetails.scss'
+import moment from 'moment';
 
-export const WorkoutItem = ({ workout }) => {
+export const WorkoutItem = ({ workout, refetch }) => {
   const [editedValues, setEditedValues] = useState({
     carga: workout.carga,
     reps: workout.reps,
@@ -12,13 +14,20 @@ export const WorkoutItem = ({ workout }) => {
   const [editingWorkoutId, setEditingWorkoutId] = useState(false);
   const [updateWorkout] = useUpdateWorkoutMutation();
   const [deleteWorkout] = useDeleteWorkoutMutation();
+  moment.locale('pt-br');
+
 
   const handleEditClick = () => {
     setEditingWorkoutId(true);
   };
 
   const handleDeleteClick = async () => {
-    await deleteWorkout(workout.id);
+    try {
+      await deleteWorkout({ id: workout.id });
+      refetch()
+    } catch (error) {
+      console.error("Erro ao deletar o treino", error);
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -29,8 +38,13 @@ export const WorkoutItem = ({ workout }) => {
   };
 
   const handlePatchClick = async () => {
-    await updateWorkout({ id: workout.id, ...editedValues });
-    setEditingWorkoutId(false);
+    try {
+      await updateWorkout({ id: workout.id, ...editedValues });
+      refetch()
+      setEditingWorkoutId(false);
+    } catch (error) {
+      console.error("Erro ao atualizar o treino", error);
+    }
   };
 
   const handleCancelClick = () => {
@@ -38,9 +52,8 @@ export const WorkoutItem = ({ workout }) => {
   };
 
   return (
-    <>
+    <tr>
       <td>{workout.title}</td>
-      {/* Exemplo para 'carga', repita a lógica para outros campos conforme necessário */}
       <td>
         {editingWorkoutId ? (
           <input
@@ -52,7 +65,40 @@ export const WorkoutItem = ({ workout }) => {
           workout.carga
         )}
       </td>
-      {/* Ícones de ação */}
+      <td>
+        {editingWorkoutId ? (
+          <input
+            type="text"
+            value={editedValues.reps}
+            onChange={(e) => handleInputChange('reps', e.target.value)}
+          />
+        ) : (
+          workout.reps
+        )}
+      </td>
+      <td>
+        {editingWorkoutId ? (
+          <input
+            type="text"
+            value={editedValues.series}
+            onChange={(e) => handleInputChange('series', e.target.value)}
+          />
+        ) : (
+          workout.series
+        )}
+      </td>
+      <td>
+        {editingWorkoutId ? (
+          <input
+            type="text"
+            value={editedValues.descanso}
+            onChange={(e) => handleInputChange('descanso', e.target.value)}
+          />
+        ) : (
+          workout.descanso
+        )}
+      </td>
+      <td>{moment(workout.createdAt).format('DD/MM/YYYY HH:mm:ss')}</td>
       <td className='edit-card-icons'>
         {editingWorkoutId ? (
           <>
@@ -66,9 +112,9 @@ export const WorkoutItem = ({ workout }) => {
           </>
         )}
       </td>
-      {/* Repita a lógica para outros campos e ícones conforme necessário */}
-    </>
+    </tr>
   );
 };
+
  
   

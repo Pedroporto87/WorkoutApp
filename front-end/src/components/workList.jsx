@@ -7,9 +7,9 @@ export const WorkoutList = () => {
   const [selectedSerieId, setSelectedSerieId] = useState(null);
 
   // Usando o hook para buscar os workouts da série selecionada
-  const { data: workouts, isError, isLoading } = useGetWorkoutsBySerieQuery(selectedSerieId, {
-    skip: !selectedSerieId, // Evita a execução da query se não houver uma série selecionada
-  });
+  const { data: workouts, isError, isLoading, refetch } = useGetWorkoutsBySerieQuery(selectedSerieId, {
+    skip: selectedSerieId === null, // Isso evita que a query seja executada sem um selectedSerieId
+  })
 
   // Função para atualizar a série selecionada pela child component 'SeriesTabs'
   const handleSerieSelected = (id) => {
@@ -36,8 +36,8 @@ export const WorkoutList = () => {
             </tr>
           </thead>
           <tbody>
-            {workouts?.entities && Object.values(workouts.entities).map((workout) => (
-              <WorkoutItem key={workout.id} workout={workout} />
+            {workouts && Object.values(workouts).map((workout) => (
+              <WorkoutItem key={workout.id} workout={workout} refetch={refetch} />
             ))}
           </tbody>
         </table>

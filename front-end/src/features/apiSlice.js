@@ -1,21 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { setCredentials } from '../features/authSlice'
+import { setCredentials, logOut }  from '../features/authSlice'
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:4000/api/',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.token
+      const token = getState().auth.accessToken;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  });
 
-        if (token) {
-            headers.set("authorization", `Bearer ${token}`)
-        }
-        return headers
-    }
-})
-
-const baseQueryWithReauth = async (args, api, extraOptions) => {
-    // console.log(args) // request url, method, body
+ /* const baseQueryWithReauth = async (args, api, extraOptions) => {
+     console.log(args) // request url, method, body
     // console.log(api) // signal, dispatch, getState()
     // console.log(extraOptions) //custom like {shout: true}
 
@@ -38,17 +37,59 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         } else {
 
             if (refreshResult?.error?.status === 403) {
-                refreshResult.error.data.message = "Your login has expired. "
+                refreshResult.error.data.message = "Your login has expired."
             }
             return refreshResult
         }
     }
 
     return result
-}
+}*/
 
+
+  const baseQueryWithReauth = async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
+
+    const { accessTokenExpiry } = api.getState().auth;
+    if (Date.now() > accessTokenExpiry) {
+        // O token expirou; tente atualizar.
+        const refreshResult = await baseQuery({
+            url: '/auth/refresh',
+            method: 'POST',
+            body: { refreshToken: api.getState().auth.refreshToken }
+        }, api, extraOptions);
+
+        if (refreshResult?.data && refreshResult?.meta?.response?.status === 200) {
+            const { accessToken, refreshToken, expiresIn } = refreshResult.data;
+            // Atualiza o estado com os novos tokens e a data de expiração
+            api.dispatch(setCredentials({ accessToken, refreshToken, expiresIn }));
+
+            // Tenta a requisição original novamente com o novo token
+            result = await baseQuery(args, api, { ...extraOptions, headers: { Authorization: `Bearer ${accessToken}` } });
+        } else {
+            // Falha ao atualizar o token; deslogar o usuário.
+            // Isso pode ser ajustado para tratar diferentes códigos de status, se necessário.
+            api.dispatch(logOut());
+        }
+    }
+
+    return result;
+};
+
+/*const baseQueryWithReauth = async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
+  
+    // Verifica se a requisição falhou devido a um token de acesso expirado.
+    if (result.error && result.error.status === 401) {
+      // Aqui, ao invés de tentar renovar o token, simplesmente deslogamos o usuário.
+      api.dispatch(logOut());
+    }
+  
+    return result;
+  };*/
 
 export const apiSlice = createApi({
+    reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
     tagTypes: ['Serie', 'User', 'Workout'],
     endpoints: builder => ({})

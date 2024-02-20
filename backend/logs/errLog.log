@@ -5,3 +5,7 @@
 20240211	15:32:30	4d0684ba-e66d-4e22-954c-6f19497fdd73	ValidationError: User validation failed: email: Path `email` is required.	PATCH	/api/user/	undefined
 20240216	14:33:37	436ab711-aab8-4a2b-a3f8-61e2e68a46b8	TypeError: Cannot read properties of null (reading 'password')	POST	/api/auth/login	http://localhost:5173
 20240216	18:20:56	2efb0e2a-2bc9-423b-999a-ff9f5f3d6756	TypeError: Cannot read properties of null (reading 'password')	POST	/api/auth/login	http://localhost:5173
+20240220	11:15:01	dba49850-cced-4d86-bb92-be0ea15034d5	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
+20240220	11:17:28	b9e947f2-5aa2-419c-aab4-5880a964ead6	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
+20240220	11:19:02	b9b01421-cbd5-453c-bb95-95a55c3dc8fc	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
+20240220	13:08:34	723b8295-b3e7-4b60-85ff-136e990c33e5	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173

@@ -15,7 +15,7 @@ const verifyJWT = (req, res, next) => {
             console.error(err); // Loga o erro para depuração
             return res.status(403).json({ message: 'Forbidden2', error: err.message });
         }
-        req.user = decoded.UserInfo.username;
+        req.email = decoded.UserInfo.email;
         req.id = decoded.UserInfo.id;
         next();
     });
