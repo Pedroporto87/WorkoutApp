@@ -1,0 +1,70 @@
+.tabs {
+    display: flex;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    overflow-x: auto; /* Permite uma barra de rolagem horizontal caso tenha muitas abas */
+  }
+  
+  .tabs button {
+    background-color: #6495ED;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tabs button:hover {
+    background-color: #023086;
+  }
+  
+  .tabs button:last-child {
+    background-color: #f04e4e;
+  }
+  
+  .tabs button:last-child:hover {
+    background-color: #750404;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Garante que o modal fique acima de outros elementos */
+  }
+  
+  .modal input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .modal button {
+    background-color: #6495ED;
+    border: none;
+    padding: 10px 20px;
+    color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+  }
+  
+  .modal button:hover {
+    background-color: #023086;
+  }
+  

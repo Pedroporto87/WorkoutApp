@@ -7,7 +7,7 @@ const loginLimiter = require('../helpers/loginLimiter');
 router.post("/login", loginLimiter, login);
 
 // Correção: Use router.get() para definir rotas GET
-router.get("/refresh", refresh);
+router.post("/refresh", refresh);
 
 // Correção: Use router.post() para definir rotas POST
 router.post("/logout", logout);
