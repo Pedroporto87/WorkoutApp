@@ -17,17 +17,17 @@ table{
 
 /* Estilize o cabeçalho da tabela */
 th {
-  background-color: #6495ED; /* Cor de fundo para os cabeçalhos */
+  background-color: #3f64a8; /* Cor de fundo para os cabeçalhos */
   text-align: left;
   padding: 10px; /* Aumente o espaço interno para melhor aparência */
-  border-bottom: 1px solid #ddd;
+  //border-bottom: 1px solid #ddd;
   color: #f5f5f5;
 }
 
 td {
-  text-align: left;
+  text-align: center;
   padding: 10px; /* Aumente o espaço interno para melhor aparência */
-  border-bottom: 1px solid #ddd;
+  //border-bottom: 1px solid #ddd;
   color: #5e5e5e;
   input[type="text"] {
     display: block;
@@ -73,6 +73,7 @@ td.edit-card-icons{
        color: #750404;
        }
  }
+ 
 }
 
 

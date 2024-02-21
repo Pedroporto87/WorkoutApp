@@ -4,21 +4,19 @@ const mongoose = require('mongoose')
 
 // pegando toda serie
 const getAllWorkouts = async (req, res) => {
-    const id = req.params?.serieId
+    const id = req.params?.serieId;
 
     try {
-        if(id){
-            const workouts = await Workout.find({serieId: id}).sort({ createdAt: -1 })
-            res.json({workouts})
-        }else{
-            res.status(400).json({msg: 'Problema ao encontrar o id da serie getAllWorkouts'})
+        if (id) {
+            const workouts = await Workout.find({ serieId: id }).sort({ createdAt: -1 });
+            return res.json({ workouts });
+        } else {
+            return res.status(400).json({ msg: 'Problema ao encontrar o id da serie getAllWorkouts' });
         }
     } catch (error) {
-        res.status(400).json({ msg: 'Problema ao encontrar exercicios getAllWorkouts'})
+        return res.status(400).json({ msg: 'Problema ao encontrar exercícios getAllWorkouts' });
     }
-    const workouts = await Workout.find({}).sort({createdAt: -1})
-
-    res.status(200).json(workouts)
+    // Removida a chamada redundante res.status(200).json(workouts)
 }
 
 // pegando exercicio especifico
