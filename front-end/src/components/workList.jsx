@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SeriesTabs } from './SeriesTabs';
 import { WorkoutItem } from './workoutTable';
 import { useGetWorkoutsBySerieQuery } from '../features/workoutApiSlide';
@@ -15,6 +15,12 @@ export const WorkoutList = () => {
   const handleSerieSelected = (id) => {
     setSelectedSerieId(id);
   };
+
+  useEffect(() => {
+    if (selectedSerieId !== null) {
+      refetch();
+    }
+  }, [selectedSerieId, refetch]);
 
   if (isLoading) return <div>Carregando exercícios...</div>;
   if (isError) return <div>Erro ao carregar exercícios.</div>;
@@ -36,9 +42,15 @@ export const WorkoutList = () => {
             </tr>
           </thead>
           <tbody>
-            {workouts && Object.values(workouts).map((workout) => (
-              <WorkoutItem key={workout.id} workout={workout} refetch={refetch} />
-            ))}
+          {workouts && workouts.length > 0 ? (
+              Object.values(workouts).map((workout) => (
+                <WorkoutItem key={workout.id} workout={workout} refetch={refetch} />
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">Nenhum exercício cadastrado para esta série.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>

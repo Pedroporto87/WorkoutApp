@@ -47,7 +47,7 @@ const baseQuery = fetchBaseQuery({
 }*/
 
 
-  const baseQueryWithReauth = async (args, api, extraOptions) => {
+  /*const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     const { accessTokenExpiry } = api.getState().auth;
@@ -74,6 +74,40 @@ const baseQuery = fetchBaseQuery({
     }
 
     return result;
+};*/
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  // Verifica se o resultado contém um erro de autorização (ex: 401 Unauthorized)
+  if (result.error && result.error.status === 401) {
+    // Tenta obter um novo accessToken usando o refreshToken
+    const refreshResult = await baseQuery({
+      url: '/auth/refresh',
+      method: 'POST',
+      body: {}
+    }, api, extraOptions);
+
+    if (refreshResult?.data) {
+      const { accessToken, refreshToken, expiresIn } = refreshResult.data;
+      // Atualiza o estado com os novos tokens
+      api.dispatch(setCredentials({ accessToken, refreshToken, expiresIn }));
+
+      // Repete a requisição original com o novo accessToken
+      result = await baseQuery({
+        ...args,
+        headers: {
+          ...args.headers,
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }, api, extraOptions);
+    } else {
+      // Falha ao atualizar o token, possivelmente deslogar o usuário
+      api.dispatch(logOut());
+    }
+  }
+
+  return result;
 };
 
 /*const baseQueryWithReauth = async (args, api, extraOptions) => {

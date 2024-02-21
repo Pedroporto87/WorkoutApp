@@ -43,6 +43,7 @@ export const workoutApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/workouts/${id}`,
         method: 'DELETE',
+        body: { id }
       }),
       // Supondo que você queira invalidar toda a lista de treinos após uma exclusão.
       invalidatesTags: [{ type: 'Workout', id: "LIST" }],

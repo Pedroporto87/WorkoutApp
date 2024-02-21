@@ -2,6 +2,7 @@
   font-family: 'Poppins';
   src: url('../fonts/Poppins-ExtraBold.ttf')format('truetype');
 }
+@import '../_mixins';
 
 nav{
     background: #fff;
@@ -24,6 +25,18 @@ nav{
       .login-signup-buttons{
         display: flex;
         justify-content: flex-end;
+      }
+      .logout-button{
+        @include sign-button;
+          background-color: #f04e4e;
+          border: none;
+          padding: 10px 20px;
+          color: #fff;
+          font-family: 'Poppins';
+          border-radius: 4px;
+          &:hover {
+            background-color: #750404;
+          }
       }
     }
 }

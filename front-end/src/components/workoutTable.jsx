@@ -23,7 +23,7 @@ export const WorkoutItem = ({ workout, refetch }) => {
 
   const handleDeleteClick = async () => {
     try {
-      await deleteWorkout({ id: workout.id });
+      await deleteWorkout( workout.id ).unwrap();
       refetch()
     } catch (error) {
       console.error("Erro ao deletar o treino", error);
@@ -36,7 +36,6 @@ export const WorkoutItem = ({ workout, refetch }) => {
       [field]: value,
     }));
   };
-
   const handlePatchClick = async () => {
     try {
       await updateWorkout({ id: workout.id, ...editedValues });
@@ -50,7 +49,7 @@ export const WorkoutItem = ({ workout, refetch }) => {
   const handleCancelClick = () => {
     setEditingWorkoutId(false);
   };
-
+  
   return (
     <tr>
       <td>{workout.title}</td>
@@ -98,7 +97,7 @@ export const WorkoutItem = ({ workout, refetch }) => {
           workout.descanso
         )}
       </td>
-      <td>{moment(workout.createdAt).format('DD/MM/YYYY HH:mm:ss')}</td>
+      <td>{moment(workout.updatedAt).format('DD/MM/YYYY HH:mm:ss')}</td>
       <td className='edit-card-icons'>
         {editingWorkoutId ? (
           <>
