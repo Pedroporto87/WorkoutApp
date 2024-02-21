@@ -1,3 +1,4 @@
+@import '../mixins';
 
 .table-container {
   width: 100%;
@@ -73,7 +74,31 @@ td.edit-card-icons{
        color: #750404;
        }
  }
- 
+ /* Estilize o cabeçalho para adicionar exercício */
+  
+.add-exercise-header {
+  display: flex;
+  justify-content: flex-end; /* Alinha o conteúdo à direita */
+  align-items: center; /* Centraliza os itens verticalmente */
+  padding: 10px;
+  background-color: #fff; /* Cor de fundo */
+  .add-exercise-span{
+    color: #5e5e5e;
+    font-size: 1.2rem;
+  }
+.add-button {
+  @include sign-button;
+   button{
+      background-color: white;
+      color: cornflowerblue;
+      &:hover{
+         border: 2px solid cornflowerblue;
+         box-shadow: 2px 2px 5px cornflowerblue;
+      }
+   }
+  }
+}
+
 }
 
 
