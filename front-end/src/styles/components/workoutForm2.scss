@@ -1,0 +1,50 @@
+@import '../mixins';
+
+.add-exercise-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    gap: 5px;
+    
+    .add-exercise-span {
+      color: #5e5e5e;
+      font-size: 1rem;
+    }
+    
+    .add-button {
+        border: none;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 7px;
+        background-color: #f04e4e;
+        text-decoration: none;
+        color: white;
+        font-family: "Poppins";
+        text-align: center;
+        transition: background-color 0.3s ease;
+      &:hover {
+        background-color: #750404;
+      }
+    }
+}
+.ok-button{
+    color: #3eee38;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.7063rem;
+       &:hover{
+         color: #026620;
+         }
+}
+.cancel-button{
+    color: #f04e4e;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.7063rem;
+         &:hover{
+           color: #750404;
+           }
+}
