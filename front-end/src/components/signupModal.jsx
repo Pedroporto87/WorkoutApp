@@ -61,6 +61,11 @@ const handleSubmit = async (e) => {
               X
             </span>
             <h2>Cadastro</h2>
+            <section className="divider">
+                <span className="line"></span>
+                <img className='divider-icon' src={'barbell.png'} />
+                <span className="line"></span>
+              </section>
             <form className="form" onSubmit={handleSubmit}>
               <label htmlFor="username">Nome:</label>
               <input type="text" id="username" name="name" required  autoComplete="off" onChange={handleChange} value={formData.name}/>

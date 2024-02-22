@@ -7,6 +7,7 @@ import { setCredentials } from '../features/authSlice'
 import { useLoginMutation } from '../features/authApiSlide'
 
 
+
 export const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,6 +71,11 @@ if (isLoading) return <p>Loading...</p>
             </span>
             <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
             <h2>Login</h2>
+              <section className="divider">
+                <span className="line"></span>
+                <img className='divider-icon' src={'barbell.png'} />
+                <span className="line"></span>
+              </section>
             <form className="form" onSubmit={handleSubmit}>
               <br />
               <label htmlFor="email">E-mail:</label>
@@ -79,7 +85,7 @@ if (isLoading) return <p>Loading...</p>
               <input type="password" placeholder='Coloque sua senha aqui!' value={password} id="password" name="password" required  onChange={(e) => setPassword(e.target.value)}/>
               <br />
               <a href="#" onClick={() => closeAndToggleLoginModal()}>Não possui conta? Clique aqui</a>
-              <button type="submit" className="modal-button" disabled={isLoading} >
+              <button type="submit" className="modal-button"  >
                 Login
               </button>
             </form>

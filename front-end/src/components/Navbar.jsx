@@ -5,10 +5,12 @@ import { SignupButtom } from './signupButtom'
 import { useAuth } from '../hooks/useAuth'; // Ajuste o caminho conforme necessário
 import { useSendLogoutMutation } from '../features/authApiSlide';
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import { ModalConfirmacao } from './ModalConfirmação';
 
 
 export const Navbar = () => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const isUserLoggedIn = useAuth();
   const [sendLogout] = useSendLogoutMutation();
   const navigate = useNavigate()
@@ -16,8 +18,13 @@ export const Navbar = () => {
   const handleLogout = async () => {
     await sendLogout();
     navigate('/')
-    // Aqui você pode adicionar qualquer lógica adicional após o logout
+    setIsLogoutModalOpen(false)
   };
+
+  const handleOpenLogoutModal = () => {
+    setIsLogoutModalOpen(true);
+  };
+
 
   return (
     <nav>
@@ -32,11 +39,20 @@ export const Navbar = () => {
                 </>
               ) : (
                 <>
-                <button className='logout-button' onClick={handleLogout}>Sair</button>
+                <button className='logout-button' onClick={handleOpenLogoutModal}>Sair</button>
                 </>
               )}
              </section>
         </section>
+        <ModalConfirmacao
+          isOpen={isLogoutModalOpen}
+          onClose={() => setIsLogoutModalOpen(false)}
+          onConfirm={handleLogout}
+          titulo="Você tem certeza que deseja sair?"
+          mensagem="Para sair, clique em Sair, para retornar, clique em Cancelar"
+          imagem="../../logout.jpg" 
+          confirmButtonText="Sair"
+        />
     </nav>
   )
 }
