@@ -45,7 +45,6 @@ export const workoutApiSlice = apiSlice.injectEndpoints({
         method: 'DELETE',
         body: { id }
       }),
-      // Supondo que você queira invalidar toda a lista de treinos após uma exclusão.
       invalidatesTags: [{ type: 'Workout', id: "LIST" }],
     }),
     updateWorkout: builder.mutation({
@@ -56,6 +55,14 @@ export const workoutApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Workout', id: "LIST" }],
     }),
+    updateWorkoutOrder: builder.mutation({
+      query: ({serieId, orderedWorkouts}) => ({
+        url: `/workouts/${serieId}/update-order`,
+        method: 'PATCH',
+        body: { orderedWorkouts: orderedWorkouts.map((id, index) => ({id, newOrder: index})) },
+      }),
+      invalidatesTags: (result, error, { serieId }) => [{ type: 'Workout', id: `LIST_${serieId}` }],
+    })
   }),
 });
 
@@ -65,6 +72,7 @@ export const {
   useAddNewWorkoutMutation,
   useDeleteWorkoutMutation,
   useUpdateWorkoutMutation,
+  useUpdateWorkoutOrderMutation,
 } = workoutApiSlice;
 
 // Para selecionar os dados dos treinos de forma similar ao que fizemos para as séries:

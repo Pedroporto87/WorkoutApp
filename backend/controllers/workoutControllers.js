@@ -44,6 +44,7 @@ const createWorkout = async (req, res) => {
 
     const id = req.params?.serieId
     const { title, reps, series, carga, descanso } = req.body
+    const count = await Workout.countDocuments({ serieId: id });
 
     try {
         if(id){
@@ -53,7 +54,8 @@ const createWorkout = async (req, res) => {
                 reps,
                 series,
                 carga,
-                descanso
+                descanso,
+                order: count,
             })
             res.status(200).json(createdWorkout)
         }else{
@@ -89,15 +91,27 @@ const updateWorkout = async (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({msg: 'exercicio não encontrado'})
     }
-
     const workout = await Workout.findByIdAndUpdate({_id: id}, { ...req.body })
-
     if(!workout){
         return res.status(404).json({msg: 'não existe o exercicio'})
     }
+    
     res.status(200).json(workout)
 }
 
+const updateOrder = async (req, res) => {
+    const { orderedWorkouts } = req.body;
+  try {
+    await Promise.all(orderedWorkouts.map(workout => 
+      Workout.updateOne({ _id: workout.id }, { $set: { order: workout.newOrder } })
+    ));
+    res.status(200).send({ message: 'Workouts updated successfully.' });
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to update workouts.' });
+  }
+};
+
+
 module.exports = {
-    createWorkout, getAllWorkouts, getWorkout, deleteWorkout, updateWorkout
+    createWorkout, getAllWorkouts, getWorkout, deleteWorkout, updateWorkout, updateOrder
 }
