@@ -51,7 +51,7 @@ export const WorkoutItem = ({ workout, refetch }) => {
   };
   
   return (
-    <tr>
+    <>
       <td>{workout.title}</td>
       <td>
         {editingWorkoutId ? (
@@ -111,7 +111,7 @@ export const WorkoutItem = ({ workout, refetch }) => {
           </>
         )}
       </td>
-    </tr>
+    </>
   );
 };
 

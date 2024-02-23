@@ -3,7 +3,8 @@
          getWorkout,
          getAllWorkouts, 
          deleteWorkout, 
-         updateWorkout } = require('../controllers/workoutControllers')
+         updateWorkout, 
+         updateOrder } = require('../controllers/workoutControllers')
 const verifyJWT = require('../helpers/verifyJWT')
 
  const router = express.Router()
@@ -19,5 +20,7 @@ const verifyJWT = require('../helpers/verifyJWT')
  router.delete("/:id", deleteWorkout)
 
  router.patch("/:id/", updateWorkout)
+
+ router.patch("/:serieId/update-order", updateOrder)
 
  module.exports = router

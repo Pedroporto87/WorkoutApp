@@ -28,19 +28,12 @@ const workoutSchema = new Schema({
         type: Number,
         required: true
     },
-    
+    order: {
+        type: Number,
+        required: true,
+        default: 0 
+    }
 }, {timestamps: true})
-
-
-
-/*const personalSchema = new Schema({
-    name:{
-        type: String,
-        required: true
-    },
-    alunos: [alunosSchema],
-})*/
-
 
 
 module.exports = mongoose.model('Workout', workoutSchema)

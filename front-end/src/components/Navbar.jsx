@@ -57,3 +57,13 @@ export const Navbar = () => {
     </nav>
   )
 }
+/*<tr>
+                        <td colSpan="7"> 
+                          <div className='mensagem-erro'>
+                            <MensagemErro
+                              mensagem="Nenhum exercício cadastrado para esta série."
+                              imagem="../../istockphoto-1427089520-612x612.jpg"
+                            />
+                          </div>
+                        </td>
+                      </tr>*/

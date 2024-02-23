@@ -13,7 +13,12 @@ table{
   border-collapse: collapse;
   background-color: #fff;
   border-radius: 1px;
-  
+  tr.even-row {
+    background-color: #f6f6fa; 
+  }
+  tr.odd-row {
+    background-color: #ffffff;
+  }
 }
 
 /* Estilize o cabeçalho da tabela */
