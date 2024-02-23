@@ -3,6 +3,7 @@ import { SeriesTabs } from './SeriesTabs';
 import { WorkoutItem } from './workoutTable';
 import { useGetWorkoutsBySerieQuery } from '../features/workoutApiSlide';
 import { WorkoutForm2 } from './workoutForm2';
+import MensagemErro from './mensagemErro';
 
 
 export const WorkoutList = () => {
@@ -60,7 +61,14 @@ export const WorkoutList = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7">Nenhum exercício cadastrado para esta série.</td>
+                <td colSpan="7"> 
+                  <div className='mensagem-erro'>
+                  <MensagemErro
+                    mensagem="Nenhum exercício cadastrado para esta série."
+                    imagem="../../istockphoto-1427089520-612x612.jpg"
+                  />
+                  </div>
+                </td>
               </tr>
             )}
             {showAddForm && (
@@ -71,7 +79,7 @@ export const WorkoutList = () => {
         </table>
         {!showAddForm && (
             <section className="add-exercise-header">
-              <span className='add-exercise-span'>Adicionar Exercicio</span>
+              <span className='add-exercise-span'>Adicionar Exercício</span>
               <button className="add-button" onClick={() => setShowAddForm(true)}>+</button>
             </section>
             )}

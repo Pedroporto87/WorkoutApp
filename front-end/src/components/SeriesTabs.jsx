@@ -2,6 +2,7 @@ import '../styles/components/seriesTabs.scss'
 import { useAddNewSerieMutation, useGetSeriesQuery, useUpdateSerieMutation, useDeleteSerieMutation } from '../features/seriesApiSlice';
 import { useState, useEffect } from 'react';
 import { MdOutlineEditNote, MdDeleteForever, MdDone, MdCancel } from "react-icons/md";
+import { ModalConfirmacao } from '../components/ModalConfirmação'
 
 
 
@@ -9,12 +10,13 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     const [title, setTitle] = useState('');
     const [selectedSerieId, setSelectedSerieId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const { data: series, isError, isLoading } = useGetSeriesQuery();
     const [addNewSerie] = useAddNewSerieMutation();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
     const [updateSerie] = useUpdateSerieMutation();
-    const [deleteSerie] = useDeleteSerieMutation()
+    const [deleteSerie] = useDeleteSerieMutation();
     
     useEffect(() => {
         if (series?.ids?.length > 0 && selectedSerieId === null) {
@@ -49,6 +51,16 @@ export const SeriesTabs = ({ onSerieSelected }) => {
         setIsEditingTitle(false);
     };
 
+    const handleCloseModal = () => {
+        setIsDeleteModalOpen(false);
+        document.body.classList.remove("blur");
+      };
+
+      const handleOpenDeleteModal = () => {
+        setIsDeleteModalOpen(true);
+        document.body.classList.add("blur");
+      };  
+
     const handleAddSerie = async () => {
         if (!title.trim()) return;
         const newSerie = { title };
@@ -64,8 +76,7 @@ export const SeriesTabs = ({ onSerieSelected }) => {
         if (selectedSerieId) {
             try {
                 await deleteSerie({ id: selectedSerieId }).unwrap();
-                setSelectedSerieId(null); // Resetar o selectedSerieId ou definir para outro valor válido
-                // Você pode querer refetch as séries aqui ou contar com a invalidação das tags para atualização automática
+                setSelectedSerieId(null);
             } catch (error) {
                 console.error("Erro ao deletar a série", error);
             }
@@ -98,11 +109,23 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                         </section>
                         <section className="delete-serie-section">
                             <a href="#" className="delete-serie-link" 
-                            onClick={(e) => {e.preventDefault(); handleDeleteSerie()}}>
+                            onClick={(e) => {e.preventDefault(); handleOpenDeleteModal();}}>
                             Deletar série?</a>
-                            <MdDeleteForever className="delete-serie-icon" onClick={handleDeleteSerie} />
+                            <MdDeleteForever className="delete-serie-icon" onClick={handleOpenDeleteModal} />
                         </section>
-                    
+                        <ModalConfirmacao
+                            isOpen={isDeleteModalOpen}
+                            onClose={handleCloseModal}
+                            onConfirm={() => {
+                                handleDeleteSerie();
+                                handleCloseModal(); // Fechar o modal após a confirmação
+                            }}
+                            imagem="../../imagem-confirmaçao.jpg"
+                            titulo="Deletar Serie?"
+                            mensagem="Você tem certeza que deseja deletar esta série?"
+                            confirmButtonText="Deletar"
+                            returnButtomText="Retornar"
+                        />
                 </section>
             <div className="tabs">
                 {series?.ids?.map((id, index) => (
@@ -112,17 +135,21 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                 ))}
                 <button className='tabs-button' onClick={() => setIsModalOpen(true)}>+</button>
                 {isModalOpen && (
-                    <div className="modal">
-                        <input
-                            className='serie-modal-input'
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Título da Série"
-                        />
-                        <button className='modal-confirm-button' onClick={handleAddSerie}>Ok</button>
-                        <button className='modal-cancel-button' onClick={() => setIsModalOpen(false)}>Cancelar</button>
-                    </div>
+                    <section className="modal-overlay">
+                        <div className="modal">
+                            <input
+                                className='serie-modal-input'
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Título da Série"
+                            />
+                            <section className="modal-button-container">
+                                <button className='modal-confirm-button' onClick={handleAddSerie}>Ok</button>
+                                <button className='modal-cancel-button' onClick={() => setIsModalOpen(false)}>Cancelar</button>
+                            </section>
+                        </div>
+                    </section>
                 )}
                 </div>
                 

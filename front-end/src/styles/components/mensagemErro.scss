@@ -1,0 +1,14 @@
+
+.mensagem-erro {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin: 20px 0;
+    .mensagem-erro-imagem{
+        max-width: '100px'; 
+        margin: '20px 0';
+      
+    }
+}

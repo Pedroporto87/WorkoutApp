@@ -1,0 +1,63 @@
+@import '../mixins';
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    .modal {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+      width: auto; // Pode ajustar para um valor fixo se necessário
+      max-width: 90%; // Limita a largura máxima do modal para garantir responsividade
+      display: flex;
+      flex-direction: column;
+      align-items: center; // Centraliza os itens no eixo cruzado (horizontalmente)
+
+      img {
+        max-width: 100px; // Limita a largura máxima da imagem para torná-la pequena
+        height: auto; // Mantém a proporção da imagem
+        margin-bottom: 20px; // Espaço entre a imagem e o título
+      }
+
+      h2, p {
+        text-align: center; // Centraliza o texto
+        width: 100%;
+        color: #5e5e5e; // Garante que o texto ocupe toda a largura disponível
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: center; // Centraliza os botões
+        width: 100%; // Faz com que o contêiner dos botões ocupe toda a largura do modal
+        margin-top: 20px;
+        @include sign-button;
+        .modal-actions-deletar{
+            background-color: #f04e4e;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            &:hover{
+            background-color: #750404;
+            }
+        }
+        .modal-actions-cancel{
+            &:hover{
+              background-color: #023086;
+            }
+        }
+
+        button {
+          margin: 0 10px; // Ajusta a margem para garantir espaço entre os botões
+        }
+      }
+    }
+  }

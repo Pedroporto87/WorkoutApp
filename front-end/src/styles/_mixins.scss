@@ -7,7 +7,8 @@
     top: 0;
     left: 0;
     z-index: 10;
-    background-color: rgb(201, 199, 199);
+    backdrop-filter: blur(8px);
+    background-color: rgba(201, 199, 199, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,7 +21,7 @@
       left: 15%;
       border-radius: 1rem;
       transform: translate(-50%, -50%);
-      background-color: rgba(255, 255, 255, 1);
+      background-color: #F7F7F7;
       position: relative;
       border: 2px solid cornflowerblue;
       .close{
@@ -30,7 +31,9 @@
         font-size: 1rem;
         margin-right: 1rem;
         cursor: pointer;
-        
+      }
+      h2, .form, .divider, .modal-button {
+        margin-bottom: 5px;
       }
       h2{
         display: flex;
@@ -39,6 +42,24 @@
         font-family: 'Poppins';
         font-weight: 700;
         color: cornflowerblue;       
+    }
+    .divider {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 20px;
+      .line {
+        flex: 1;
+        height: 1px;
+        background-color: #6495ED;
+        margin: 0 10px; // Ajusta o espaçamento ao redor do ícone ou texto
+      }
+      .divider-icon {
+        max-width: 50px; // Limita a largura máxima da imagem para torná-la pequena
+        height: auto;
+        margin-top: 13px; // Mantém a proporção da imagem
+      }
     }
     .form{
       display: flex;

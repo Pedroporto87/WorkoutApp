@@ -3,7 +3,7 @@
 const Welcome = () => {
   return (
     <section>
-        Bem vindos ao Gym Mate, seu amigo da academia!
+        Bem vindos ao WorkoutMate, seu amigo da academia!
         
     </section>
   )
