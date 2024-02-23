@@ -6,10 +6,8 @@
   background-color: #fff;
   border-radius: 1px;/* Adicione uma barra de rolagem horizontal, se necessário */
 }
-
-/* Estilize a tabela dentro do contêiner */
 table{
-  width: 100%; /* A tabela ocupará toda a largura do contêiner */
+  width: 100%; 
   border-collapse: collapse;
   background-color: #fff;
   border-radius: 1px;
@@ -24,7 +22,7 @@ table{
 /* Estilize o cabeçalho da tabela */
 th {
   background-color: #3f64a8; /* Cor de fundo para os cabeçalhos */
-  text-align: left;
+  text-align: center;
   padding: 10px; /* Aumente o espaço interno para melhor aparência */
   //border-bottom: 1px solid #ddd;
   color: #f5f5f5;

@@ -5,6 +5,7 @@ import { useGetWorkoutsBySerieQuery, useUpdateWorkoutOrderMutation } from '../fe
 import { WorkoutForm2 } from './workoutForm2';
 import MensagemErro from './mensagemErro';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { PrintScreenButton } from '../components/printScreen'
 
 
 export const WorkoutList = () => {
@@ -54,6 +55,7 @@ export const WorkoutList = () => {
 
     return (
       <>
+      <section className='print-screen'>
         <SeriesTabs onSerieSelected={handleSerieSelected} />
         <section className='table-container'>
           <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -108,14 +110,17 @@ export const WorkoutList = () => {
               </Droppable>
             </table>
           </DragDropContext>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+        <PrintScreenButton />
           {!showAddForm && (
             <section className="add-exercise-header">
               <span className='add-exercise-span'>Adicionar Exercício</span>
               <button className="add-button" onClick={() => setShowAddForm(true)}>+</button>
             </section>
           )
-
           }
+          </div>
+        </section>
         </section>
       </>
     );
