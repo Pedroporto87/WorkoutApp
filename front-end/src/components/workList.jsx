@@ -79,7 +79,7 @@ export const WorkoutList = () => {
         </table>
         {!showAddForm && (
             <section className="add-exercise-header">
-              <span className='add-exercise-span'>Adicionar Exercicio</span>
+              <span className='add-exercise-span'>Adicionar Exercício</span>
               <button className="add-button" onClick={() => setShowAddForm(true)}>+</button>
             </section>
             )}

@@ -49,9 +49,10 @@ export const Navbar = () => {
           onClose={() => setIsLogoutModalOpen(false)}
           onConfirm={handleLogout}
           titulo="Você tem certeza que deseja sair?"
-          mensagem="Para sair, clique em Sair, para retornar, clique em Cancelar"
+          mensagem="Para sair, clique em Sair, para retornar, clique em Retornar"
           imagem="../../logout.jpg" 
           confirmButtonText="Sair"
+          returnButtomText="Retornar"
         />
     </nav>
   )

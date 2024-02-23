@@ -84,7 +84,7 @@ if (isLoading) return <p>Loading...</p>
               <label htmlFor="password">Password:</label>
               <input type="password" placeholder='Coloque sua senha aqui!' value={password} id="password" name="password" required  onChange={(e) => setPassword(e.target.value)}/>
               <br />
-              <a href="#" onClick={() => closeAndToggleLoginModal()}>Não possui conta? Clique aqui</a>
+              <a href="#" onClick={() => closeAndToggleLoginModal()}>Não possui conta? Cadastre-se aqui</a>
               <button type="submit" className="modal-button"  >
                 Login
               </button>

@@ -12,7 +12,7 @@ export const SignupButtom = () => {
   };
   return (
     <section className="sign-up-bottom">
-        <button onClick={showModal}>Sign Up</button>
+        <button onClick={showModal}>Cadastro</button>
         {showSignupModal ? <SignupModal />:''}
         
     </section>

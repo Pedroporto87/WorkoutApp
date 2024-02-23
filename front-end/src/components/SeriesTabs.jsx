@@ -124,6 +124,7 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                             titulo="Deletar Serie?"
                             mensagem="Você tem certeza que deseja deletar esta série?"
                             confirmButtonText="Deletar"
+                            returnButtomText="Retornar"
                         />
                 </section>
             <div className="tabs">
