@@ -5,6 +5,8 @@ import { useGetWorkoutsBySerieQuery, useUpdateWorkoutOrderMutation } from '../fe
 import { WorkoutForm2 } from './workoutForm2';
 import MensagemErro from './mensagemErro';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { PrintScreenButton } from '../components/printScreen'
+import { TbCapture } from "react-icons/tb";
 
 
 export const WorkoutList = () => {
@@ -54,6 +56,7 @@ export const WorkoutList = () => {
 
     return (
       <>
+      <section className='print-screen'>
         <SeriesTabs onSerieSelected={handleSerieSelected} />
         <section className='table-container'>
           <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -108,14 +111,19 @@ export const WorkoutList = () => {
               </Droppable>
             </table>
           </DragDropContext>
-          {!showAddForm && (
-            <section className="add-exercise-header">
-              <span className='add-exercise-span'>Adicionar Exercício</span>
-              <button className="add-button" onClick={() => setShowAddForm(true)}>+</button>
-            </section>
-          )
-
-          }
+          <section className="footer-table-container">
+            <div className='capture-button'>
+              <PrintScreenButton className='capture-svg' />
+              <span className='capture-span'>Capture a tabela</span> 
+            </div>
+            {!showAddForm && (
+              <section className="add-exercise-header">
+                <span className='add-exercise-span'>Adicionar Exercício</span>
+                <button className="add-button" onClick={() => setShowAddForm(true)}>+</button>
+              </section>
+            )}
+          </section>
+        </section>
         </section>
       </>
     );

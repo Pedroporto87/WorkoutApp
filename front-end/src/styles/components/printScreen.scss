@@ -1,0 +1,17 @@
+.capture-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: cornflowerblue;
+    border: none;
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+    font-size: 2rem;
+    cursor: pointer;
+    gap: 5px;
+    &:hover {
+      color: #023086;
+    }
+}
