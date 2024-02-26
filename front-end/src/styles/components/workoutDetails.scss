@@ -87,12 +87,12 @@ td.edit-card-icons{
  }
  /* Estilize o cabeçalho para adicionar exercício */
   
-.add-exercise-header {
+/*.add-exercise-header {
   display: flex;
-  justify-content: flex-end; /* Alinha o conteúdo à direita */
-  align-items: center; /* Centraliza os itens verticalmente */
+  justify-content: flex-end;
+  align-items: center; 
   padding: 10px;
-  background-color: #fff; /* Cor de fundo */
+  background-color: #fff; 
   .add-exercise-span{
     color: #5e5e5e;
     font-size: 1.2rem;
@@ -108,8 +108,62 @@ td.edit-card-icons{
       }
    }
   }
-}
+}*/
+
+
 }
 
+.footer-table-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .capture-button{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    gap: 5px;
+    .capture-span {
+      color: #5e5e5e;
+      font-size: 1.2rem;
+    }
+    .capture-svg{
+      background-color: #fff;
+      color: cornflowerblue;
+      border: none;
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      gap: 5px;
+      &:hover{
+        color: #023086;
+      }
+    }
+  }
+  .add-exercise-header {
+    display: flex;
+    justify-content: flex-end; // Alinha o conteúdo à direita
+    align-items: center; // Centraliza os itens verticalmente
+    padding: 10px;
+    background-color: #fff; // Cor de fundo
+
+    .add-exercise-span {
+      color: #5e5e5e;
+      font-size: 1.2rem;
+    }
+  }
+
+  .add-button {
+    background-color: white;
+    color: cornflowerblue;
+    cursor: pointer;
+    
+    &:hover {
+      border: 2px solid #750404;
+      box-shadow: 2px 2px 5px #750404;
+    }
+  }
+}
 
 

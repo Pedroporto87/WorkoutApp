@@ -1,5 +1,6 @@
-
+import { TbCapture } from "react-icons/tb";
 import html2canvas from 'html2canvas';
+import '../styles/components/printScreen.scss'
 
 export const PrintScreenButton = () => {
   const captureTable = () => {
@@ -16,6 +17,6 @@ export const PrintScreenButton = () => {
   };
 
   return (
-    <button onClick={captureTable} style={{ alignSelf: 'flex-start' }}>Capturar Tabela</button>
+    <button onClick={captureTable} className='capture-svg'> <TbCapture/></button>
   );
 };
