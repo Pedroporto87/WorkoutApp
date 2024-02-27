@@ -16,7 +16,7 @@ export const seriesApiSlice = apiSlice.injectEndpoints({
       },
       transformResponse: responseData => {
         const loadedSeries = responseData.map(serie => {
-          return { ...serie, id: serie._id }; // Correção feita aqui
+          return { ...serie, id: serie._id }; 
         });
         return seriesAdapter.setAll(initialState, loadedSeries);
       },

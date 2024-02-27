@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import App from './App.jsx';
 import './index.css';
 import Welcome from './pages/Welcome.jsx';
-//import { PersistLogin } from './components/PersistLogin';
+//import  PersistLogin  from './components/PersistLogin';
 //import RequireAuth from './components/RequireAuth.jsx';
 
 
@@ -24,15 +24,12 @@ const router = createBrowserRouter([
         path: '/aluno-dashboard',
         element: (
           
-              <AlunoDashBoard />
-         
+            <AlunoDashBoard />
+          
         )
       }
-      
-      // Adicione outras rotas protegidas aqui
     ],
   },
-  // Você pode adicionar rotas não protegidas fora do PersistLogin aqui, se necessário
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

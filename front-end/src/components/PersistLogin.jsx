@@ -1,23 +1,38 @@
+import { Outlet, Link } from "react-router-dom";
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'; // Não se esqueça de importar useDispatch
-import { toggleLoginModal } from '../features/modalSlice';
+import { useRefreshMutation } from "../features/authApiSlide";
+import usePersist from "../hooks/usePersist";
+import { useSelector } from 'react-redux';
 import { selectCurrentToken } from "../features/authSlice";
-import usePersist from '../hooks/usePersist';
+import { AlunoDashBoard } from "../pages/AlunoDashBoard";
 
-export const PersistLogin = ({ children }) => {
-  const dispatch = useDispatch();
-  const token = useSelector(selectCurrentToken); 
+const PersistLogin = () => {
   const [persist] = usePersist();
+  const token = useSelector(selectCurrentToken);
+  const [refresh, { isLoading, isError, error }] = useRefreshMutation();
 
   useEffect(() => {
+      if (!token && persist) {
+          refresh().catch(console.error);
+      }
+  }, [token, persist, refresh]);
 
-    if (!token && !persist) {
-      dispatch(toggleLoginModal());
-    }
-  }, [token, persist, dispatch]); 
+  if (!persist || token) {
+      return <Outlet />;
+  } else if (isLoading) {
+      // Considerar adicionar um spinner ou mensagem de carregamento
+      return <div>Loading...</div>;
+  } else if (isError) {
+      return (
+          <p className='errmsg'>
+              {`${error?.data?.message} - `}
+              <Link to="/login">Please login again</Link>.
+          </p>
+      );
+  }
 
-
-  const isAuthenticated = token !== null;
-
-  return isAuthenticated ? children : null;
+  // Caso padrão
+  return <AlunoDashBoard />;
 };
+
+export default PersistLogin;

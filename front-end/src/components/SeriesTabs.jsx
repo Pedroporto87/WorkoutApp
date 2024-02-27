@@ -3,6 +3,7 @@ import { useAddNewSerieMutation, useGetSeriesQuery, useUpdateSerieMutation, useD
 import { useState, useEffect } from 'react';
 import { MdOutlineEditNote, MdDeleteForever, MdDone, MdCancel } from "react-icons/md";
 import { ModalConfirmacao } from '../components/ModalConfirmação'
+;
 
 
 
@@ -11,7 +12,14 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     const [selectedSerieId, setSelectedSerieId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const { data: series, isError, isLoading } = useGetSeriesQuery();
+    const { data: series , isError, isLoading } = useGetSeriesQuery('serieList',{
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true,
+        refetchOnReconnect: true,
+       // pollingInterval: 15000,
+
+        
+    });
     const [addNewSerie] = useAddNewSerieMutation();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
@@ -20,11 +28,13 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     
     useEffect(() => {
         if (series?.ids?.length > 0 && selectedSerieId === null) {
-            const firstSerieId = series.ids[0];
-            onSerieSelected(firstSerieId);
-            setSelectedSerieId(firstSerieId);
+          const firstSerieId = series.ids[0]; 
+          onSerieSelected(firstSerieId); 
+          setSelectedSerieId(firstSerieId); 
         }
-    }, [series, onSerieSelected]);
+      }, [series, selectedSerieId, onSerieSelected]);
+
+
 
     const handleSelectSerie = (id) => {
         onSerieSelected(id);
@@ -41,7 +51,6 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     const handleUpdateClick = async () => {
         try {
             await updateSerie({ id: selectedSerieId, title: editedTitle }).unwrap();
-            // Aqui você pode querer refetch as séries ou atualizar o estado local
             setIsEditingTitle(false);
         } catch (error) {
             console.error("Erro ao atualizar o título da série", error);

@@ -6,7 +6,7 @@ import { WorkoutForm2 } from './workoutForm2';
 import MensagemErro from './mensagemErro';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { PrintScreenButton } from '../components/printScreen'
-import { TbCapture } from "react-icons/tb";
+
 
 
 export const WorkoutList = () => {

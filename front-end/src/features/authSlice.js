@@ -14,7 +14,8 @@ const authSlice = createSlice({
             const { accessToken, refreshToken, expiresIn } = action.payload;
             state.accessToken = accessToken;
             state.refreshToken = refreshToken;
-            state.accessTokenExpiry = Date.now() + expiresIn * 7 * 24 * 60 * 60 * 1000; // Supondo que expiresIn esteja em segundos
+            // Certifique-se de que expiresIn seja convertido corretamente para milissegundos.
+            state.accessTokenExpiry = Date.now() + expiresIn * 1000; // Corrigido para considerar expiresIn em segundos
         },
     }
 })
@@ -26,3 +27,11 @@ export const { reducer: authReducer } = authSlice
 export const selectCurrentToken = (state) => state.auth.accessToken
 export const selectRefreshToken = (state) => state.auth.refreshToken
 export const selectAccessTokenExpiry = (state) => state.auth.accessTokenExpiry
+
+export const selectIsAuthenticated = (state) => {
+    const accessToken = state.auth.accessToken;
+    const accessTokenExpiry = state.auth.accessTokenExpiry;
+    const now = Date.now();
+    // O usuário está autenticado se um accessToken existe e o tempo atual é menor que o tempo de expiração.
+    return accessToken !== null && now < accessTokenExpiry;
+};
