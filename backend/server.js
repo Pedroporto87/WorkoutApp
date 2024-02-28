@@ -10,6 +10,8 @@ const root = require('./routes/root')
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const serieRoutes = require('./routes/seriesRoutes')
+const personalRoutes = require('./routes/personalRoutes')
+const gymRoutes = require('./routes/gymRoutes')
 const { logger } = require('./utils/logger')
 const corsOptions = require( './config/corsOptions')
 const errorHandler = require('./utils/errorHandler')
@@ -29,6 +31,8 @@ app.use("/api/workouts", workingRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/series", serieRoutes)
+app.use("/api/personal", personalRoutes)
+app.use('/api/gym', gymRoutes);
 app.all('*', (req, res) => {
     res.status(404)
     if (req.accepts('html')) {

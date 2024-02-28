@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const Serie = require('../models/seriesModel')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
+const upload = require('../helpers/file-storage')
 
 // @desc Get all users
 // @route GET /users
@@ -22,68 +23,84 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { name, password, email } = req.body
+    upload.single('image')(req, res, async (error) => {
+        if (error) {
+            return res.status(400).json({ message: error.message });
+        }
 
-    // Confirm data
-    if (!name || !password || !email ) {
-        return res.status(400).json({ message: 'All fields are required' })
-    }
+        const { name, password, email, role, gym } = req.body; // Inclui gym
+        const imagePath = req.file ? req.file.path : '';
 
-    // Check for duplicate username
-    const duplicate = await User.findOne({ email }).lean().exec()
+        // Confirmação dos dados
+        if (!name || !password || !email || !role || !gym) { // Verifica se gym foi fornecido
+            return res.status(400).json({ message: 'All fields are required' });
+        }
 
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate username' })
-    }
+        // Verificação de duplicidade de email
+        const duplicate = await User.findOne({ email }).lean().exec();
 
-    // Hash password 
-    const hashedPwd = await bcrypt.hash(password, 10) // salt rounds
+        if (duplicate) {
+            return res.status(409).json({ message: 'Duplicate email' });
+        }
 
-    const userObject = { name, "password": hashedPwd, email }
+        // Hash da senha
+        const hashedPwd = await bcrypt.hash(password, 10);
 
-    // Create and store new user 
-    const user = await User.create(userObject)
+        const userObject = { name, password: hashedPwd, email, role, gym, imageUrl: imagePath }; // Inclui gym
 
-    if (user) { //created 
-        res.status(201).json({ message: `New user ${name} created` })
-    } else {
-        res.status(400).json({ message: 'Invalid user data received' })
-    }
-})
+        // Criação e armazenamento do novo usuário
+        const user = await User.create(userObject);
+
+        if (user) {
+            res.status(201).json({ message: `New user ${name} created`, user });
+        } else {
+            res.status(400).json({ message: 'Invalid user data received' });
+        }
+    });
+});
 
 // @desc Update a user
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
-    const userId = req.id;
-
-    // Verifica se o usuário existe para atualizar
-    const user = await User.findById(userId).exec();
-
-    if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-    }
-
-    // Verifica se o email já existe, mas ignora o próprio usuário
-    if (email) {
-        const duplicate = await User.findOne({ email }).lean().exec();
-        if (duplicate && duplicate._id.toString() !== userId) {
-            return res.status(409).json({ message: 'Duplicate email' });
+    upload.single('image')(req, res, async (error) => {
+        if (error) {
+            return res.status(400).json({ message: error.message });
         }
-    }
 
-    // Atualiza apenas os campos fornecidos
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (password) {
-        // Hash da senha
-        user.password = await bcrypt.hash(password, 10); // salt rounds
-    }
+        const { name, email, password, role, gym } = req.body; // Inclui gym
+        const userId = req.id;
+        const imagePath = req.file ? req.file.path : '';
 
-    const updatedUser = await user.save();
+        // Verifica a existência do usuário
+        const user = await User.findById(userId).exec();
 
-    res.json({ message: `${updatedUser.name} updated` });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        // Verificação de duplicidade de email
+        if (email && email !== user.email) {
+            const duplicate = await User.findOne({ email }).lean().exec();
+            if (duplicate && duplicate._id.toString() !== userId) {
+                return res.status(409).json({ message: 'Duplicate email' });
+            }
+        }
+
+        // Atualizações condicionais dos campos
+        if (name) user.name = name;
+        if (email) user.email = email;
+        if (role) user.role = role;
+        if (gym) user.gym = gym; // Atualiza gym
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
+        if (imagePath) user.imageUrl = imagePath;
+
+        const updatedUser = await user.save();
+
+        res.json({ message: `${updatedUser.name} updated`, user: updatedUser });
+    });
 });
 
 // @desc Delete a user
