@@ -9,3 +9,21 @@
 20240220	11:17:28	b9e947f2-5aa2-419c-aab4-5880a964ead6	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
 20240220	11:19:02	b9b01421-cbd5-453c-bb95-95a55c3dc8fc	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
 20240220	13:08:34	723b8295-b3e7-4b60-85ff-136e990c33e5	ReferenceError: cookie is not defined	GET	/api/series	http://localhost:5173
+20240227	17:13:28	471d7487-e6d6-40c6-9a27-145d81243cb1	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	17:13:37	15b98aba-0ddb-4b35-b883-9fb71d81430a	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	17:13:54	1dcccb88-e9f4-4401-83f3-486b1bedc2b7	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	17:13:54	0457aa42-1b0f-499c-9281-48a195011774	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	17:46:29	fae10e93-a6a9-4088-bc89-2b7d4866e048	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	17:46:51	2a21e35c-46e6-4046-9ae2-c5ba568211c4	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240227	21:32:07	0a1fd622-2f07-49dc-ac31-b09e15e51333	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240228	11:22:23	ead746b3-f09d-4e8c-8beb-7b6becd1118f	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240228	11:26:45	1ff0d712-ef0b-4d44-ae84-83e424e894da	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240228	11:26:49	72c71a81-9782-42d5-8168-a2b900ce302a	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240228	11:27:08	cee433ad-68d0-48ef-a139-d73010e0b0c1	TypeError: Cannot read properties of undefined (reading 'includes')	GET	/api/series	http://localhost:5173
+20240228	12:23:52	4e08648b-e011-41da-b180-1474dc6ba5e9	TypeError: Cannot read properties of undefined (reading 'some')	GET	/api/series	http://localhost:5173
+20240228	12:24:06	be79c184-52d6-4ba6-80ba-7971056d7a7c	TypeError: Cannot read properties of undefined (reading 'some')	GET	/api/series	http://localhost:5173
+20240228	12:45:49	dd7997e3-e17a-402c-b308-b2bd09ba4ce5	SyntaxError: Unexpected token ']', ..."jpeg",
+  ],
+  "loc"... is not valid JSON	POST	/api/gym/	undefined
+20240228	13:30:53	6aea7d3f-9042-4b24-b072-21a04d800de2	ReferenceError: decoded is not defined	POST	/api/auth/login/	undefined
+20240228	13:37:33	beb573fe-0ed1-4fa6-8076-5c934debbbbc	TypeError: Cannot read properties of undefined (reading 'some')	PATCH	/api/personal/65df57bae15520bf0db74d2c	undefined

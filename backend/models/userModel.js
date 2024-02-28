@@ -19,6 +19,21 @@ const  UserSchema = new Schema({
         type: String,
         required: true,
     },
+    imageUrl: {
+        type: String,
+        required: false
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['user', 'personal', 'admin', 'gym'],
+        default: 'user'
+      },
+      gym: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Gym', 
+        required: true
+    }
 })
 
 

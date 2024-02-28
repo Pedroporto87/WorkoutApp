@@ -1,4 +1,7 @@
 const User = require('../models/userModel')
+const Personal = require('../models/personalModel')
+const Admin = require('../models/adminModel')
+const Gym = require('../models/gymModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
@@ -8,23 +11,30 @@ require('dotenv').config()
 // @route POST /auth
 // @access Public
 const login = asyncHandler(async (req, res) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: 'All fields are required' })
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const foundUser = await User.findOne({ email })
+    // Tentativa de encontrar o usuário em cada modelo
+    let foundUser = await User.findOne({ email });
+    if (!foundUser) foundUser = await Admin.findOne({ email });
+    if (!foundUser) foundUser = await Personal.findOne({ email });
+    if (!foundUser) foundUser = await Gym.findOne({ email });
 
-    const match = await bcrypt.compare(password, foundUser.password)
+    if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
 
-    if (!match) return res.status(401).json({ message: 'Unauthorized' })
+    const match = await bcrypt.compare(password, foundUser.password);
+
+    if (!match) return res.status(401).json({ message: 'Unauthorized' });
 
     const accessToken = jwt.sign(
         {
             "UserInfo": {
                 "email": foundUser.email,
                 "id": foundUser._id.toString(),
+                "role": foundUser.role,
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -53,38 +63,41 @@ const login = asyncHandler(async (req, res) => {
 // @route GET /auth/refresh
 // @access Public - because access token has expired
 const refresh = (req, res) => {
-    const cookies = req.cookies
+    const cookies = req.cookies;
 
-    if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
+    if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
 
-    const refreshToken = cookies.jwt
+    const refreshToken = cookies.jwt;
 
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         asyncHandler(async (err, decoded) => {
-            if (err) return res.status(403).json({ message: 'Forbidden1' })
+            if (err) return res.status(403).json({ message: 'Forbidden' });
 
-            const foundUser = await User.findOne({ email: decoded.email }).exec()
+            let foundUser = await User.findOne({ email: decoded.email });
+            if (!foundUser) foundUser = await Admin.findOne({ email: decoded.email });
+            if (!foundUser) foundUser = await Personal.findOne({ email: decoded.email });
+            if (!foundUser) foundUser = await Gym.findOne({ email: decoded.email });
 
-            if (!foundUser) return res.status(401).json({ message: 'Unauthorized3' })
+            if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
 
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
                         "email": foundUser.email,
-                        "id": foundUser._id,
+                        "id": foundUser._id.toString(),
+                        "role": foundUser.role, 
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '7d' }
-            )
+            );
 
-            res.json({ accessToken })
+            res.json({ accessToken });
         })
-    )
-}
-
+    );
+};
 // @desc Logout
 // @route POST /auth/logout
 // @access Public - just to clear cookie if exists

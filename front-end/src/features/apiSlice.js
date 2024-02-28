@@ -65,7 +65,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         }
       }, api, extraOptions);
     } else {
-      // Falha ao atualizar o token, possivelmente deslogar o usuário
       api.dispatch(logOut());
     }
   }

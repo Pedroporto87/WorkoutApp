@@ -42,7 +42,7 @@ export const SeriesTabs = ({ onSerieSelected }) => {
     };
     const handleEditClick = () => {
         setIsEditingTitle(true);
-        setEditedTitle(series?.entities[selectedSerieId]?.title || '');
+        setEditedTitle(serieTitles || '');
     };
     const handleInputChange = (value) => {
         setEditedTitle(value);
@@ -92,6 +92,9 @@ export const SeriesTabs = ({ onSerieSelected }) => {
         }
     };
 
+    const serieTitles = series?.entities[selectedSerieId]?.title;
+    const serieIds = series?.ids;
+
     return (
         <section className='tabs-conteiner'>
             <section className='tabs-header'>
@@ -104,7 +107,7 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                                 onChange={(e) => handleInputChange(e.target.value)}
                             />
                         ) : (
-                            <p>{series?.entities[selectedSerieId]?.title}</p>
+                            <p>{serieTitles}</p>
                         )}
                         
                         {isEditingTitle ? (
@@ -137,7 +140,7 @@ export const SeriesTabs = ({ onSerieSelected }) => {
                         />
                 </section>
             <div className="tabs">
-                {series?.ids?.map((id, index) => (
+                {serieIds.map((id, index) => (
                     <button className={`tabs-button ${selectedSerieId === id ? 'selected' : ''}`} key={id} onClick={() => handleSelectSerie(id)}>
                         Série {index + 1}
                     </button>
