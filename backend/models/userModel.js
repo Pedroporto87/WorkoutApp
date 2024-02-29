@@ -33,6 +33,11 @@ const  UserSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Gym', 
         required: true
+    },
+    personal: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Personal',
+        required: false 
     }
 })
 

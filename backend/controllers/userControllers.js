@@ -28,12 +28,13 @@ const createNewUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: error.message });
         }
 
-        const { name, password, email, role, gym } = req.body; // Inclui gym
-        const imagePath = req.file ? req.file.path : '';
+        const { name, password, email, role, gym, personal } = req.body;
+        const defaultImagePath = '../../front-end/public/usuario-anonimo.png';
+        const imagePath = req.file ? req.file.path : defaultImagePath;
 
         // Confirmação dos dados
-        if (!name || !password || !email || !role || !gym) { // Verifica se gym foi fornecido
-            return res.status(400).json({ message: 'All fields are required' });
+        if (!name || !password || !email || !role || !gym) { // A presença de personal é opcional
+            return res.status(400).json({ message: 'All fields are required except personal' });
         }
 
         // Verificação de duplicidade de email
@@ -46,7 +47,7 @@ const createNewUser = asyncHandler(async (req, res) => {
         // Hash da senha
         const hashedPwd = await bcrypt.hash(password, 10);
 
-        const userObject = { name, password: hashedPwd, email, role, gym, imageUrl: imagePath }; // Inclui gym
+        const userObject = { name, password: hashedPwd, email, role, gym, imageUrl: imagePath, personal }; // Inclui personal
 
         // Criação e armazenamento do novo usuário
         const user = await User.create(userObject);
@@ -68,7 +69,7 @@ const updateUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: error.message });
         }
 
-        const { name, email, password, role, gym } = req.body; // Inclui gym
+        const { name, email, password, role, gym, personal } = req.body; // Inclui personal
         const userId = req.id;
         const imagePath = req.file ? req.file.path : '';
 
@@ -79,19 +80,12 @@ const updateUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        // Verificação de duplicidade de email
-        if (email && email !== user.email) {
-            const duplicate = await User.findOne({ email }).lean().exec();
-            if (duplicate && duplicate._id.toString() !== userId) {
-                return res.status(409).json({ message: 'Duplicate email' });
-            }
-        }
-
         // Atualizações condicionais dos campos
         if (name) user.name = name;
         if (email) user.email = email;
         if (role) user.role = role;
         if (gym) user.gym = gym; // Atualiza gym
+        if (personal) user.personal = personal; // Atualiza personal
         if (password) {
             user.password = await bcrypt.hash(password, 10);
         }

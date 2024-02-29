@@ -7,6 +7,6 @@ const verifyJWT = require('../helpers/verifyJWT')
 router.get("/", verifyJWT, usersController.getAllUsers) 
 router.post("/", usersController.createNewUser)
 router.patch("/", verifyJWT, usersController.updateUser)
-router.delete("/", verifyJWT, usersController.deleteUser)
+router.delete("/:id", verifyJWT, usersController.deleteUser)
 
 module.exports = router
