@@ -4870,3 +4870,11 @@
 20240229	01:01:56	8280b9a9-0b01-4494-a560-bcedc10871c8	POST	/api/auth/login/	undefined
 20240229	01:03:05	2b057c9d-96db-4d16-a27d-b77fff0ae9b8	PATCH	/api/personal/65dff213c3610030982002c4	undefined
 20240229	01:27:42	74099ba8-5f9b-47e9-8a8c-78f22c9f5fa8	POST	/api/personal/	undefined
+20240229	09:59:18	60440917-3d24-48fe-af76-cfc2654e7e3b	POST	/api/user/	undefined
+20240229	09:59:49	5dc2758e-bbc5-4945-94d1-aed25806d9da	POST	/api/user/	undefined
+20240229	10:14:05	cbb55a53-e402-4243-b4f7-69b7eb1d7ee8	PATCH	/api/user/	undefined
+20240229	10:14:40	81671080-00e4-4457-bca1-e316f32f6b0a	POST	/api/auth/login/	undefined
+20240229	10:16:24	e93fe39d-b651-4227-8d43-47a10016bebd	PATCH	/api/user/65df6c94392eb818ed4c7211	undefined
+20240229	10:16:26	c431c889-5b61-485d-ba81-272a767b4896	PATCH	/api/user/65df6c94392eb818ed4c7211	undefined
+20240229	10:17:27	669a6f2c-6113-4ded-943b-7c3766ff8199	PATCH	/api/user/65df6c94392eb818ed4c7211	undefined
+20240229	10:26:30	4bbc795c-d836-4a1f-a13d-ccb201361e35	PATCH	/api/user/65df6c94392eb818ed4c7211	undefined

@@ -29,8 +29,7 @@ const createNewUser = asyncHandler(async (req, res) => {
         }
 
         const { name, password, email, role, gym, personal } = req.body;
-        const defaultImagePath = '../../front-end/public/usuario-anonimo.png';
-        const imagePath = req.file ? req.file.path : defaultImagePath;
+        let imageUrl = req.body.imageUrl || '../../front-end/public/usuario-anonimo.png';
 
         // Confirmação dos dados
         if (!name || !password || !email || !role || !gym) { // A presença de personal é opcional
@@ -47,7 +46,7 @@ const createNewUser = asyncHandler(async (req, res) => {
         // Hash da senha
         const hashedPwd = await bcrypt.hash(password, 10);
 
-        const userObject = { name, password: hashedPwd, email, role, gym, imageUrl: imagePath, personal }; // Inclui personal
+        const userObject = { name, password: hashedPwd, email, role, gym, imageUrl, personal }; // Inclui personal
 
         // Criação e armazenamento do novo usuário
         const user = await User.create(userObject);
@@ -64,36 +63,43 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
+    const userId = req.params.id; // Obtém o ID do usuário a partir da URL
+
     upload.single('image')(req, res, async (error) => {
         if (error) {
             return res.status(400).json({ message: error.message });
         }
 
-        const { name, email, password, role, gym, personal } = req.body; // Inclui personal
-        const userId = req.id;
-        const imagePath = req.file ? req.file.path : '';
+        const { name, email, password, role, gym, personal, imageUrl } = req.body;
 
-        // Verifica a existência do usuário
-        const user = await User.findById(userId).exec();
+        try {
+            const user = await User.findById(userId).exec();
 
-        if (!user) {
-            return res.status(400).json({ message: 'User not found' });
+            if (!user) {
+                return res.status(400).json({ message: 'User not found' });
+            }
+
+            // Atualizações condicionais dos campos
+            if (name) user.name = name;
+            if (email) user.email = email;
+            if (role) user.role = role;
+            if (gym) user.gym = gym;
+            if (personal) user.personal = personal;
+            if (password) {
+                user.password = await bcrypt.hash(password, 10);
+            }
+            if (imageUrl) {
+                user.imageUrl = imageUrl;
+            } else if (req.file) { // Caso contrário, verifica se um arquivo foi enviado
+                user.imageUrl = req.file.path;
+            }
+
+            const updatedUser = await user.save();
+
+            res.json({ message: `${updatedUser.name} updated`, user: updatedUser });
+        } catch (error) {
+            res.status(500).json({ message: 'Erro ao atualizar usuário', error: error.message });
         }
-
-        // Atualizações condicionais dos campos
-        if (name) user.name = name;
-        if (email) user.email = email;
-        if (role) user.role = role;
-        if (gym) user.gym = gym; // Atualiza gym
-        if (personal) user.personal = personal; // Atualiza personal
-        if (password) {
-            user.password = await bcrypt.hash(password, 10);
-        }
-        if (imagePath) user.imageUrl = imagePath;
-
-        const updatedUser = await user.save();
-
-        res.json({ message: `${updatedUser.name} updated`, user: updatedUser });
     });
 });
 

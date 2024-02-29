@@ -69,7 +69,7 @@ const getPersonalById = async (req, res) => {
 const updatePersonal = asyncHandler(async (req, res) => {
     const { name, email, password, role, gym, personalDetails, imageUrl } = req.body; // Alterei 'personal' para 'personalDetails' para evitar confusão
 
-    const personalId = req.params.id; // Certifique-se de que está capturando o ID corretamente (req.params.id ou req.id, conforme sua configuração de rota)
+    const personalId = req.params.id;
 
     try {
         const personal = await Personal.findById(personalId).exec();
